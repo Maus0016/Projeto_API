@@ -3,7 +3,7 @@ async function get(){
     const res = await fetch(`${baseUrl}/api/Usuario`)
     const users = await Response.json
 }
-get()
+getUsuarios()
 async function create(params) {
     const res = await fetch("https://localhost:7134/api/Usuario")
 }
@@ -30,4 +30,18 @@ function toastify(tipo,mensagem){
         <p>${mensagem}<p>
         </div>
     `)
+    const toas= document.querySelector(".toastify")
+    setTimeout(() => {
+
+        toas.remove()
+    }, 3000);
 }
+ async function createuser(){
+    const name = document.querySelector("#name")
+    const senha = document.querySelector("#senha")
+    const usuario = {
+        name:name.value,
+        senha:senha.value
+    } 
+ }
+ 
