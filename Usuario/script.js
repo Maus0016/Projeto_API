@@ -43,7 +43,7 @@ async function createUsuario() {
         name: name.value,
         senha: senha.value
     }
-    const response = await fetch(`${baseUrl}/users`,
+    const response = await fetch(`${baseUrl}/api/Usuario`,
         {
             method: "POST",
             headers: headers,
@@ -64,7 +64,7 @@ async function createUsuario() {
 
 async function removeUsuario() {
 
-    const response = await fetch(`${baseUrl}/users/1`,
+    const response = await fetch(`${baseUrl}/api/Usuario/1`,
         {
             method: "DELETE"
         })
