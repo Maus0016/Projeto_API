@@ -1,7 +1,7 @@
 const baseUrl = "https://localhost:7134"
 async function get() {
     const res = await fetch(`${baseUrl}/api/Usuario`)
-    const users = await Response.json
+    const users = await response.json
 }
 getUsuarios()
 async function create(params) {
