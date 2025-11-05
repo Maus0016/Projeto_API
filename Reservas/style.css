@@ -2,4 +2,56 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, #8e44ad, #9b59b6);
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 2rem;
+        margin-bottom: 20px;
+    }
+
+    .form {
+        background: white;
+        color: #333;
+        border-radius: 12px;
+        padding: 20px;
+        width: 300px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    input,
+    button {
+        width: 100%;
+        padding: 10px;
+        margin: 6px 0;
+        border: none;
+        border-radius: 8px;
+        font-family: inherit;
+    }
+
+    input {
+        background-color: #f0f0f0;
+    }
+
+    button {
+        background-color: #8e44ad;
+        color: white;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        background-color: #732d91;
+    }
 }
