@@ -4,11 +4,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Reservas</title>
+    <link rel="stylesheet" href="reservas.css">
 </head>
 
 <body>
-    <p>Reservas</p>
+    <h1>Reservas</h1>
+
+    <div class="container">
+        <div class="reserva pendente">
+            <h2>Reserva #201</h2>
+            <p>Cliente: Maria Silva</p>
+            <p>Mesa: 5</p>
+            <p>Horário: 19:30</p>
+            <p class="status">Status: Pendente</p>
+            <button>Confirmar</button>
+        </div>
+
+        <div class="reserva confirmada">
+            <h2>Reserva #202</h2>
+            <p>Cliente: João Pereira</p>
+            <p>Mesa: 2</p>
+            <p>Horário: 20:00</p>
+            <p class="status">Status: Confirmada</p>
+            <button>Cancelar</button>
+        </div>
+
+        <div class="reserva concluida">
+            <h2>Reserva #203</h2>
+            <p>Cliente: Ana Souza</p>
+            <p>Mesa: 1</p>
+            <p>Horário: 18:00</p>
+            <p class="status">Status: Concluída</p>
+            <button>Remover</button>
+        </div>
+    </div>
 </body>
 
 </html>

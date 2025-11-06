@@ -4,25 +4,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="styleheet" href="./style.css">
+    <title>Usuários</title>
+    <link rel="stylesheet" href="usuario.css">
 </head>
 
 <body>
-    <fieldset>
-        <label for="name">Usuario</label>
-        <input type="text" id="name>">
-    </fieldset>
-    <fieldset>
-        <label for="senha">Senha</label>
-        <input type="senha" id="senha">
-    </fieldset>
+    <h1>Usuários</h1>
 
-    <button type="submit"> Cadastrar</button>
-    <button type="submit">Entrar</button>
+    <div class="container">
+        <div class="usuario ativo">
+            <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="User Icon">
+            <h2>Maria Silva</h2>
+            <p>Email: maria.silva@example.com</p>
+            <p class="status">Status: Ativo</p>
+            <button>Editar</button>
+        </div>
 
-    <form></form>
-    <script src="./script.js"></script>
+        <div class="usuario inativo">
+            <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="User Icon">
+            <h2>João Pereira</h2>
+            <p>Email: joao.pereira@example.com</p>
+            <p class="status">Status: Inativo</p>
+            <button>Reativar</button>
+        </div>
+
+        <div class="usuario admin">
+            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Admin Icon">
+            <h2>Ana Souza</h2>
+            <p>Email: ana.souza@example.com</p>
+            <p class="status">Status: Administrador</p>
+            <button>Gerenciar</button>
+        </div>
+    </div>
 </body>
 
 </html>

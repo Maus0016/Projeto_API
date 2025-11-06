@@ -1,38 +1,92 @@
+/* Reset */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* Body setup */
 body {
     font-family: 'Poppins', sans-serif;
-    background-color: #f5f5f5;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    color: white;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    min-height: 100vh;
-}
-
-.cardapio-container {
-    background: #fff;
-    border-radius: 12px;
-    padding: 24px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    width: 320px;
+    justify-content: center;
+    height: 100vh;
     text-align: center;
 }
 
-h2 {
-    color: #d35400;
-    margin-bottom: 10px;
+/* Page title */
+h1 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 40px;
+    text-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
 }
 
-p {
-    color: #555;
-    margin-bottom: 10px;
+/* Container for comandas */
+.container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
-.price {
-    color: #27ae60;
-    font-weight: bold;
+/* Comanda cards */
+.comanda {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 20px 30px;
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    width: 260px;
+    transition: all 0.3s ease;
+}
+
+.comanda:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.25);
+}
+
+/* Comanda info */
+.comanda p {
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+/* Buttons */
+button {
+    background: white;
+    color: #6a11cb;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background: #6a11cb;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .container {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .comanda {
+        width: 90%;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
 }

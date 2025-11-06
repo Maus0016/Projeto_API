@@ -4,11 +4,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Pedidos da Cozinha</title>
+    <link rel="stylesheet" href="pedidocozinha.css">
 </head>
 
 <body>
-    <p>Pedido Cozinha</p>
+    <h1>Pedidos da Cozinha</h1>
+
+    <div class="container">
+        <div class="pedido pendente">
+            <h2>Pedido #101</h2>
+            <p>Mesa: 3</p>
+            <p>Itens: Pizza Margherita, Suco de Laranja</p>
+            <p class="status">Status: Pendente</p>
+            <button>Marcar como Pronto</button>
+        </div>
+
+        <div class="pedido preparo">
+            <h2>Pedido #102</h2>
+            <p>Mesa: 5</p>
+            <p>Itens: Cheeseburger, Refrigerante</p>
+            <p class="status">Status: Em preparo</p>
+            <button>Finalizar Pedido</button>
+        </div>
+
+        <div class="pedido pronto">
+            <h2>Pedido #103</h2>
+            <p>Mesa: 2</p>
+            <p>Itens: Salada Caesar</p>
+            <p class="status">Status: Pronto</p>
+            <button>Enviar para Entrega</button>
+        </div>
+    </div>
 </body>
 
 </html>

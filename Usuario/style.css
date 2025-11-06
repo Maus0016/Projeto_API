@@ -1,48 +1,126 @@
+/* Reset */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* Body setup */
 body {
     font-family: 'Poppins', sans-serif;
-    background: #ecf0f1;
+    background: linear-gradient(135deg, #3a7bd5, #3a6073);
+    color: white;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    height: 100vh;
+    justify-content: flex-start;
+    min-height: 100vh;
+    text-align: center;
+    padding: 40px 20px;
 }
 
-.user-card {
-    background: white;
-    border-radius: 12px;
-    padding: 24px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    width: 320px;
+/* Title */
+h1 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 40px;
+    text-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Container */
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+    width: 100%;
+    max-width: 1100px;
+}
+
+/* Usuario card */
+.usuario {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    padding: 25px;
+    width: 280px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    transition: all 0.3s ease;
     text-align: center;
 }
 
-h2 {
-    color: #34495e;
-    margin-bottom: 10px;
+.usuario:hover {
+    transform: translateY(-6px);
+    background: rgba(255, 255, 255, 0.25);
 }
 
-.role {
-    color: #7f8c8d;
-    font-size: 0.9rem;
-    margin-bottom: 15px;
+/* Profile picture */
+.usuario img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 12px;
+    border: 3px solid rgba(255, 255, 255, 0.5);
 }
 
+/* Name */
+.usuario h2 {
+    font-size: 1.3rem;
+    margin-bottom: 6px;
+}
+
+/* Info text */
+.usuario p {
+    font-size: 1rem;
+    margin-bottom: 6px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Status colors */
+.ativo .status {
+    color: #00ff88;
+}
+
+.inativo .status {
+    color: #ffcc00;
+}
+
+.admin .status {
+    color: #00e5ff;
+}
+
+/* Buttons */
 button {
-    padding: 10px 18px;
+    background: white;
+    color: #3a7bd5;
     border: none;
-    border-radius: 8px;
-    background: #3498db;
-    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-weight: 600;
     cursor: pointer;
-    transition: 0.3s;
+    transition: all 0.3s ease;
+    margin-top: 10px;
 }
 
 button:hover {
-    background: #2980b9;
+    background: #3a7bd5;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .usuario {
+        width: 90%;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
 }
