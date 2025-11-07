@@ -1,11 +1,14 @@
-const baseUrl = "https://localhost:7134"
+const baseUrl = "http://localhost:5042"
+const headers = {
+    "Content-Type": "application/json"
+}
 async function get() {
     const res = await fetch(`${baseUrl}/api/Usuario`)
     const users = await response.json
 }
 getUsuarios()
 async function create(params) {
-    const res = await fetch("https://localhost:7134/api/Usuario")
+    const res = await fetch(`${baseUrl}/api/Usuario`)
 }
 
 function init() {

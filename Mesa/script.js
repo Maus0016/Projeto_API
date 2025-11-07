@@ -15,7 +15,7 @@ async function get() {
         if (mesa.situacaoMesa === 1) {
             situacao = "Ocupada"
         } else if (mesa.situacaoMesa === 2) {
-
+            situacao = "Reservada"
         }
         container.insertAdjacentHTML("beforeend", `
               <div class="mesa">
