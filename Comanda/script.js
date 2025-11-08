@@ -17,7 +17,7 @@ async function get() {
         <p>Número da Mesa: ${comanda.numeroMesa}</p>
         <p>Status: ${comanda.nomeCliente}</p>
         <p>Itens: ${comanda.items}</p>
-        <button>Encerra Comanda</button> <!-- fazer o PUT -->
+        <button id="${comanda.id}_edit">Encerra Comanda</button> <!-- fazer o PUT -->
         <button id= ${comanda.id}>Excluir Comanda</button>
     </div>
     `)
@@ -27,12 +27,43 @@ async function get() {
             console.log("Deletar Comanda", comanda.id)
             removeUsuario(comanda.id)
         })
-
+        const editBtnton = document.getElementById(`${comanda.id}_edit`)
+        editBtnton.addEventListener("click", () => {
+            openEditModal(comanda)
+        })
     });
 
 
 }
 get()
+function openEditModal(comanda) {
+    document.body.insertAdjacentHTML("beforeend", `
+        <div class="wrapper">
+
+        <div class="modal">
+            <input type="text" value="${comanda.numeroMesa}" id="numeroMesa"/>
+            <input type="text" value="${comanda.nomeCliente}" id="nomeCliente"/>
+            <button id="update">Salvar</button>
+        </div>
+    </div>
+        `)
+
+    const updateButton = document.getElementById("update")
+    updateButton.addEventListener("click", async () => {
+        const objComandaUpdate = {
+            numeroMesa: Number(document.getElementById("numeroMesa").value),
+            nomeCliente: document.getElementById("nomeCliente").value
+        }
+        const response = await fetch(`${baseUrl}/api/Comanda/${comanda.id}`,
+            {
+                method: "PUT",
+                headers: headers,
+                body: JSON.stringify(objComandaUpdate)
+            })
+
+        console.log(response, "response delete")
+    })
+}
 async function removeComanda(id) {
 
     const response = await fetch(`${baseUrl}/api/Comanda/${id}`,
