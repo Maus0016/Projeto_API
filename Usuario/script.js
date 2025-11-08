@@ -1,12 +1,35 @@
+
+
 const baseUrl = "http://localhost:5042"
 const headers = {
     "Content-Type": "application/json"
 }
 async function get() {
-    const res = await fetch(`${baseUrl}/api/Usuario`)
-    const users = await response.json
+    const res = await fetch(`${baseUrl}/api/Usuario`, {
+        headers: headers
+    })
+    console.log(res, "res")
+    const users = await res.json()
+    console.log(users, "users")
+    users.forEach(user => {
+        const container = document.querySelector(".container")
+        container.insertAdjacentHTML("beforeend", `
+          <div class="usuario">
+        <p>Id: ${user.id}</p>
+        <p>Nome: ${user.nome}</p>
+        <p>Email: ${user.email}</p>
+        <button id=${user.id}>Deletar Usuario</button>
+    </div>
+    `)
+        const removeButton = document.getElementById(user.id)
+        removeButton.addEventListener("click", () => {
+            //delete user
+            console.log("deletar usuario", user.id)
+            removeUsuario(user.id)
+        })
+    })
 }
-getUsuarios()
+get()
 async function create(params) {
     const res = await fetch(`${baseUrl}/api/Usuario`)
 }
@@ -19,7 +42,7 @@ function init() {
 
     })
 }
-init()
+// init()
 
 function abrirModal() {
     const body = document.body
@@ -65,9 +88,9 @@ async function createUsuario() {
 
 }
 
-async function removeUsuario() {
+async function removeUsuario(id) {
 
-    const response = await fetch(`${baseUrl}/api/Usuario/1`,
+    const response = await fetch(`${baseUrl}/api/Usuario/${id}`,
         {
             method: "DELETE"
         })
