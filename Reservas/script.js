@@ -18,11 +18,27 @@ async function get() {
         <p>Numero da Mesa: ${Reserva.numeroMesa}</p>
         <p>Nome do Cliente: ${Reserva.nomeCliente}</p>
         <p>Telefone: ${Reserva.telefone}</p>
-        <button>Criar Reserva</button>
+        <button id=${Reserva.id}>Cancelar Reserva</button>
     </div>
+    
     `)
+        const removeButton = document.getElementById(Reserva.id)
+        removeButton.addEventListener("click", () => {
+            //delete user
+            console.log("deletar Reserva", Reserva.id)
+            removeReserva(Reserva.id)
+        })
 
     });
 
 }
 get()
+
+async function removeReserva(id) {
+
+    const response = await fetch(`${baseUrl}/api/Reservas/${id}`,
+        {
+            method: "DELETE"
+        })
+    console.log(response, "response delete")
+}
