@@ -17,12 +17,27 @@ async function get() {
         <p>Número da Mesa: ${comanda.numeroMesa}</p>
         <p>Status: ${comanda.nomeCliente}</p>
         <p>Itens: ${comanda.items}</p>
-        <button>Fechar Comanda</button>
-
+        <button>Encerra Comanda</button> <!-- fazer o PUT -->
+        <button id= ${comanda.id}>Excluir Comanda</button>
     </div>
     `)
+        const removeButton = document.getElementById(comanda.id)
+        removeButton.addEventListener("click", () => {
+
+            console.log("Deletar Comanda", comanda.id)
+            removeUsuario(comanda.id)
+        })
+
     });
 
 
 }
 get()
+async function removeComanda(id) {
+
+    const response = await fetch(`${baseUrl}/api/Comanda/${id}`,
+        {
+            method: "DELETE"
+        })
+    console.log(response, "response delete")
+}

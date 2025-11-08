@@ -25,15 +25,25 @@ async function get() {
             <p>Descrição: ${cardapioitem.descricao}</p>
             <p>Preço: ${cardapioitem.preco}</p>
             <p>Possui Preparo: ${preparo}</p>
-            </button>Adicionar ao Pedido</button>
+            <button id=${cardapioitem.id}>Cancelar o Pedido</button>
         </div>
-        
-
-    
     `)
+        const removeButton = document.getElementById(cardapioitem.id)
+        removeButton.addEventListener("click", () => {
 
+            console.log("Deletar pedido", cardapioitem.id)
+            removeReserva(cardapioitem.id)
+        })
 
     })
 }
 
 get()
+async function removeCardapioitem(id) {
+
+    const response = await fetch(`${baseUrl}/api/CardapioItem/${id}`,
+        {
+            method: "DELETE"
+        })
+    console.log(response, "response delete")
+}

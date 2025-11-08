@@ -21,11 +21,24 @@ async function get() {
               <div class="mesa">
             <p>Mesa ${mesa.numeroMesa}</p>
             <p>Status: ${situacao}</p>
-            <button>Ocupar Mesa</button>
+            <button id=${mesa.id}>Deletar Mesa</button>
         </div>
             
             `)
+        const removeButton = document.getElementById(mesa.id)
+        removeButton.addEventListener("click", () => {
+
+            console.log("Deletar Mesa", mesa.id)
+            removeUsuario(mesa.id)
+        })
 
     })
 }
 get()
+async function removeComanda(id) {
+    const response = await fetch(`${baseUrl}/api/Mesa/${id}`,
+        {
+            method: "DELETE"
+        })
+    console.log(response, "response delete")
+}

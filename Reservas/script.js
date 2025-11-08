@@ -24,7 +24,6 @@ async function get() {
     `)
         const removeButton = document.getElementById(Reserva.id)
         removeButton.addEventListener("click", () => {
-            //delete user
             console.log("deletar Reserva", Reserva.id)
             removeReserva(Reserva.id)
         })
