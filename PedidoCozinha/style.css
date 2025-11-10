@@ -1,117 +1,121 @@
 /* Reset */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 /* Body setup */
 body {
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #00c9a7, #005fa3);
-    color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    min-height: 100vh;
-    text-align: center;
-    padding: 40px 20px;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #ff3b3b, #ff8a00);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  text-align: center;
+  padding: 20px;
 }
 
-/* Title */
+/* Page title */
 h1 {
-    font-size: 2.5rem;
-    font-weight: 600;
-    margin-bottom: 40px;
-    text-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin-bottom: 40px;
+  text-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* ✅ Back Button */
+.back-btn {
+  display: inline-block;
+  margin-bottom: 25px;
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.back-btn:hover {
+  background: white;
+  color: #ff3b3b;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
 }
 
 /* Container */
 .container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 25px;
-    width: 100%;
-    max-width: 1100px;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
-/* Pedido card */
+/* Pedido cards */
 .pedido {
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 16px;
-    padding: 25px;
-    width: 300px;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-    transition: all 0.3s ease;
-    text-align: left;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 20px 30px;
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  width: 260px;
+  transition: all 0.3s ease;
 }
 
 .pedido:hover {
-    transform: translateY(-6px);
-    background: rgba(255, 255, 255, 0.25);
-}
-
-/* Pedido title */
-.pedido h2 {
-    font-size: 1.4rem;
-    margin-bottom: 10px;
-}
-
-/* Pedido details */
-.pedido p {
-    font-size: 1rem;
-    margin-bottom: 8px;
-    color: rgba(255, 255, 255, 0.9);
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.25);
 }
 
 /* Status colors */
 .pendente .status {
-    color: #ffcc00;
+  color: #ffeb3b;
 }
 
 .preparo .status {
-    color: #00e5ff;
+  color: #00e5ff;
 }
 
 .pronto .status {
-    color: #00ff99;
+  color: #00ff7f;
 }
 
 /* Buttons */
 button {
-    background: white;
-    color: #007f73;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 10px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 10px;
+  background: white;
+  color: #ff3b3b;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 button:hover {
-    background: #00c9a7;
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+  background: #ff3b3b;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Responsive */
+/* Responsive layout */
 @media (max-width: 600px) {
-    .container {
-        flex-direction: column;
-        align-items: center;
-    }
+  .container {
+    flex-direction: column;
+    gap: 15px;
+  }
 
-    .pedido {
-        width: 90%;
-    }
+  .pedido {
+    width: 90%;
+  }
 
-    h1 {
-        font-size: 2rem;
-    }
+  h1 {
+    font-size: 2rem;
+  }
 }

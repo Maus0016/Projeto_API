@@ -1,11 +1,11 @@
-/* Reset */
+/* ===== RESET ===== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Body setup */
+/* ===== BODY SETUP ===== */
 body {
     font-family: 'Poppins', sans-serif;
     background: linear-gradient(135deg, #0077ff, #00c3ff);
@@ -16,16 +16,34 @@ body {
     justify-content: center;
     height: 100vh;
     text-align: center;
+
+    /* Transition animation base */
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
-/* Page title */
+/* Page loaded: fade in */
+body.loaded {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Page leaving: fade out and slide up */
+body.fade-out {
+    opacity: 0;
+    transform: translateY(-20px);
+}
+
+/* ===== PAGE TITLE ===== */
 p {
     font-size: 2.5rem;
     font-weight: 600;
     margin-bottom: 40px;
+    animation: fadeSlideDown 0.8s ease both;
 }
 
-/* Navigation container */
+/* ===== NAVIGATION BAR ===== */
 nav {
     background: rgba(255, 255, 255, 0.15);
     padding: 16px 24px;
@@ -35,9 +53,21 @@ nav {
     gap: 20px;
     flex-wrap: wrap;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    transition: transform 0.6s ease, opacity 0.6s ease;
 }
 
-/* Nav links */
+/* Nav slide-in animation */
+body.loaded nav {
+    animation: navSlideDown 0.8s ease both;
+}
+
+/* Nav slides out when leaving */
+body.fade-out nav {
+    transform: translateY(-60px);
+    opacity: 0;
+}
+
+/* ===== NAV LINKS ===== */
 nav a {
     color: white;
     text-decoration: none;
@@ -49,7 +79,7 @@ nav a {
     transition: all 0.3s ease;
 }
 
-/* Hover effects */
+/* Hover effect */
 nav a:hover {
     background: white;
     color: #0077ff;
@@ -57,7 +87,19 @@ nav a:hover {
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Mobile responsive tweak */
+/* ===== IMAGE SLIDE EFFECT ===== */
+img {
+    opacity: 0;
+    transform: translateX(50px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+body.loaded img {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* ===== RESPONSIVE ===== */
 @media (max-width: 600px) {
     nav {
         flex-direction: column;
@@ -68,5 +110,28 @@ nav a:hover {
     nav a {
         width: 100%;
         text-align: center;
+    }
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeSlideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes navSlideDown {
+    from {
+        transform: translateY(-40px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
     }
 }

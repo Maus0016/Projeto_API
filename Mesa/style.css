@@ -26,6 +26,27 @@ h1 {
     text-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
 }
 
+/* ✅ Back Button */
+.back-btn {
+    display: inline-block;
+    margin-bottom: 25px;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.back-btn:hover {
+    background: white;
+    color: #ff7e00;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
 /* Mesa container */
 .container {
     display: flex;

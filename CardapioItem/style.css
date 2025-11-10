@@ -1,11 +1,11 @@
-/* Reset */
+/* ===== RESET ===== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Body setup */
+/* ===== BODY SETUP ===== */
 body {
     font-family: 'Poppins', sans-serif;
     background: linear-gradient(135deg, #6a11cb, #2575fc);
@@ -18,7 +18,7 @@ body {
     text-align: center;
 }
 
-/* Page title */
+/* ===== PAGE TITLE ===== */
 h1 {
     font-size: 2.5rem;
     font-weight: 600;
@@ -26,7 +26,7 @@ h1 {
     text-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
 }
 
-/* Container for comandas */
+/* ===== CONTAINER ===== */
 .container {
     display: flex;
     gap: 20px;
@@ -34,7 +34,7 @@ h1 {
     justify-content: center;
 }
 
-/* Comanda cards */
+/* ===== COMANDA CARDS ===== */
 .comanda {
     background: rgba(255, 255, 255, 0.15);
     padding: 20px 30px;
@@ -50,13 +50,13 @@ h1 {
     background: rgba(255, 255, 255, 0.25);
 }
 
-/* Comanda info */
+/* ===== COMANDA INFO ===== */
 .comanda p {
     margin-bottom: 10px;
     font-size: 1.1rem;
 }
 
-/* Buttons */
+/* ===== BUTTONS ===== */
 button {
     background: white;
     color: #6a11cb;
@@ -75,7 +75,30 @@ button:hover {
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Responsive */
+/* ===== BACK BUTTON ===== */
+.back-btn {
+    display: inline-block;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    padding: 10px 25px;
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    backdrop-filter: blur(8px);
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.back-btn:hover {
+    background: white;
+    color: #6a11cb;
+    transform: translateY(-3px);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* ===== RESPONSIVE ===== */
 @media (max-width: 600px) {
     .container {
         flex-direction: column;
@@ -88,5 +111,10 @@ button:hover {
 
     h1 {
         font-size: 2rem;
+    }
+
+    .back-btn {
+        margin-top: 10px;
+        margin-bottom: 30px;
     }
 }
