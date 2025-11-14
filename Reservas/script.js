@@ -42,7 +42,7 @@ function openEditModal(Reserva) {
         <div class="wrapper">
 
         <div class="modal">
-            <input type="text" value="${Reserva.Id}" id="Id"/>
+           
             <input type="text" value="${Reserva.numeroMesa}" id="numeroMesa"/>
             <input type="text" value="${Reserva.nomeCliente}" id="nomeCliente"/>
             <input type="text" value="${Reserva.telefone}" id="telefone"/>
@@ -56,11 +56,12 @@ function openEditModal(Reserva) {
 
     updateButton.addEventListener("click", async () => {
         const objReservaUpdate = {
+            id: Reserva.id,
             numeroMesa: Number(document.getElementById("numeroMesa").value),
             nomeCliente: document.getElementById("nomeCliente").value,
             telefone: Number(document.getElementById("telefone").value)
         }
-        const response = await fetch(`${baseUrl}/api/Comanda/${comanda.id}`,
+        const response = await fetch(`${baseUrl}/api/Reserva/${Reserva.id}`,
             {
                 method: "PUT",
                 headers: headers,
