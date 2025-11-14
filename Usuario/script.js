@@ -18,6 +18,7 @@ async function get() {
         <p>Id: ${user.id}</p>
         <p>Nome: ${user.nome}</p>
         <p>Email: ${user.email}</p>
+            <button id="${user.id}_edit">Editar Usuario</button>
         <button id=${user.id}>Deletar Usuario</button>
     </div>
     `)
@@ -26,6 +27,10 @@ async function get() {
             //delete user
             console.log("deletar usuario", user.id)
             removeUsuario(user.id)
+        })
+        const editBtnton = document.getElementById(`${user.id}_edit`)
+        editBtnton.addEventListener("click", () => {
+            openEditModal(user)
         })
     })
 }
@@ -86,6 +91,39 @@ async function createUsuario() {
         toastify("Sucesso", "Login efetuado com sucesso!")
     }
 
+}
+function openEditModal(usuario) {
+    document.body.insertAdjacentHTML("beforeend", `
+        <div class="wrapper">
+
+        <div class="modal">
+            <input type="text" value="${usuario.nome}" id="nome"/>
+            <input type="text" value="${usuario.email}" id="email"/>
+            <button id="update">Salvar</button>
+        </div>
+    </div>
+        `)
+
+    const updateButton = document.getElementById("update")
+
+    updateButton.addEventListener("click", async () => {
+        const objusuarioUpdate = {
+            nome: document.getElementById("nome").value,
+            email: document.getElementById("email").value
+        }
+        const response = await fetch(`${baseUrl}/api/Usuario/${usuario.id}`,
+            {
+                method: "PUT",
+                headers: headers,
+                body: JSON.stringify(objusuarioUpdate)
+            })
+
+        console.log(response, "response edit")
+        if (response.ok) {
+
+            location.reload()
+        }
+    })
 }
 
 async function removeUsuario(id) {

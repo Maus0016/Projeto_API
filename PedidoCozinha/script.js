@@ -17,6 +17,7 @@ async function get() {
         <p>Comanda Id: ${pedidocozinha.comandaId}</p>
         <p>Status: ${pedidocozinha.comanda}</p>
         <p>Itens: ${pedidocozinha.itens}</p>
+        <button id="${pedidocozinha.id}_edit">Editar Pedido da Cozinha</button> <!-- fazer o PUT -->
         <button id=${pedidocozinha.id}>Cancelar Pedido de Cozinha</button>
     </div>
     `)
@@ -24,12 +25,54 @@ async function get() {
         removeButton.addEventListener("click", () => {
 
             console.log("Deletar Pedido da Cozinha", pedidocozinha.id)
-            removeUsuario(pedidocozinha.id)
+            removePedidoCozinha(pedidocozinha.id)
+
+        })
+        const editBtnton = document.getElementById(`${pedidocozinha.id}_edit`)
+        editBtnton.addEventListener("click", () => {
+            openEditModal(pedidocozinha)
         })
     })
 
 }
 get()
+
+function openEditModal(pedidocozinha) {
+    document.body.insertAdjacentHTML("beforeend", `
+        <div class="wrapper">
+
+        <div class="modal">
+            <input type="text" value="${pedidocozinha.comandaId}" id="comandaId"/>
+           
+            <button id="update">Salvar</button>
+        </div>
+    </div>
+        `)
+
+    const updateButton = document.getElementById("update")
+
+    updateButton.addEventListener("click", async () => {
+        const objPedidoCozinhaUpdate = {
+            comandaId: Number(document.getElementById("comandaId").value)
+
+        }
+        const response = await fetch(`${baseUrl}/api/PedidoCozinha/${pedidocozinha.id}`,
+            {
+                method: "PUT",
+                headers: headers,
+                body: JSON.stringify(objPedidoCozinhaUpdate)
+            })
+
+        console.log(response, "response edit")
+        if (response.ok) {
+
+            // location.reload()
+        } else {
+            console.error("Erro ao atualizar o pedido da cozinha")
+
+        }
+    })
+}
 async function removePedidoCozinha(id) {
 
     const response = await fetch(`${baseUrl}/api/PedidoCozinha/${id}`,

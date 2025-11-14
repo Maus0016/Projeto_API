@@ -21,6 +21,7 @@ async function get() {
               <div class="mesa">
             <p>Mesa ${mesa.numeroMesa}</p>
             <p>Status: ${situacao}</p>
+             <button id="${mesa.id}_edit">Editar Mesa</button>
             <button id=${mesa.id}>Deletar Mesa</button>
         </div>
             
@@ -29,13 +30,52 @@ async function get() {
         removeButton.addEventListener("click", () => {
 
             console.log("Deletar Mesa", mesa.id)
-            removeUsuario(mesa.id)
+            removeMesa(mesa.id)
+        })
+        const editBtnton = document.getElementById(`${mesa.id}_edit`)
+        editBtnton.addEventListener("click", () => {
+            openEditModal(mesa)
         })
 
     })
 }
 get()
-async function removeComanda(id) {
+function openEditModal(mesa) {
+    document.body.insertAdjacentHTML("beforeend", `
+        <div class="wrapper">
+
+        <div class="modal">
+            <input type="text" value="${mesa.numeroMesa}" id="numeroMesa"/>
+            <input type="text" value="${mesa.situacaoMesa}" id="situacaoMesa"/>
+          
+
+            <button id="update">Salvar</button>
+        </div>
+    </div>
+        `)
+    const updateButton = document.getElementById("update")
+
+    updateButton.addEventListener("click", async () => {
+        const objMesaUpdate = {
+            numeroMesa: Number(document.getElementById("numeroMesa").value),
+            situacaoMesa: document.getElementById("SituacaoMesa").value
+        }
+        const response = await fetch(`${baseUrl}/api/Mesa/${mesa.id}`,
+            {
+                method: "PUT",
+                headers: headers,
+                body: JSON.stringify(objMesaUpdate)
+            })
+
+        console.log(response, "response edit")
+        if (response.ok) {
+
+            location.reload()
+        }
+    })
+
+}
+async function removeMesa(id) {
     const response = await fetch(`${baseUrl}/api/Mesa/${id}`,
         {
             method: "DELETE"

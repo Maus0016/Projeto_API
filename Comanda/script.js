@@ -17,7 +17,7 @@ async function get() {
         <p>Número da Mesa: ${comanda.numeroMesa}</p>
         <p>Status: ${comanda.nomeCliente}</p>
         <p>Itens: ${comanda.items}</p>
-        <button id="${comanda.id}_edit">Encerra Comanda</button> <!-- fazer o PUT -->
+        <button id="${comanda.id}_edit">Editar Comanda</button> <!-- fazer o PUT -->
         <button id= ${comanda.id}>Excluir Comanda</button>
     </div>
     `)
@@ -25,7 +25,7 @@ async function get() {
         removeButton.addEventListener("click", () => {
 
             console.log("Deletar Comanda", comanda.id)
-            removeUsuario(comanda.id)
+            removeComanda(comanda.id)
         })
         const editBtnton = document.getElementById(`${comanda.id}_edit`)
         editBtnton.addEventListener("click", () => {
@@ -49,6 +49,7 @@ function openEditModal(comanda) {
         `)
 
     const updateButton = document.getElementById("update")
+
     updateButton.addEventListener("click", async () => {
         const objComandaUpdate = {
             numeroMesa: Number(document.getElementById("numeroMesa").value),
@@ -61,7 +62,11 @@ function openEditModal(comanda) {
                 body: JSON.stringify(objComandaUpdate)
             })
 
-        console.log(response, "response delete")
+        console.log(response, "response edit")
+        if (response.ok) {
+
+            location.reload()
+        }
     })
 }
 async function removeComanda(id) {
