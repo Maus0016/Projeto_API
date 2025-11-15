@@ -56,6 +56,12 @@ h1 {
     font-size: 1.1rem;
 }
 
+button:disabled {
+    background-color: #6d6a6a;
+}
+
+
+
 /* ===== BUTTONS ===== */
 button {
     background: white;
@@ -68,7 +74,7 @@ button {
     transition: all 0.3s ease;
 }
 
-button:hover {
+button:hover:not(:disabled) {
     background: #6a11cb;
     color: white;
     transform: translateY(-2px);

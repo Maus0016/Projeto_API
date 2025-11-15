@@ -93,3 +93,53 @@ async function removeCardapioitem(id) {
         })
     console.log(response, "response delete")
 }
+
+function openCreateModal() {
+    const button = document.querySelector("#criar")
+    button.addEventListener("click", () => {
+        document.body.insertAdjacentHTML("beforeend", `
+        <div class="wrapper">
+
+        <div class="modal">
+            <input type="text" id="titulo"/>
+            <input type="text"  id="descricao"/>
+            <input type="text" id="preco"/>
+            <div>
+                <label for="possuiPreparo">Possui Preparo:</label>
+                <input type="checkbox"  id="possuiPreparo"/>
+            </div>
+
+            <button id="create">Salvar</button>
+        </div>
+    </div>
+        `)
+
+        const createButton = document.getElementById("create")
+
+        createButton.addEventListener("click", async () => {
+            if (!document.getElementById("titulo").value) {
+                //alert("O campo título é obrigatório.")
+            }
+            const cardapioItem = {
+                titulo: document.getElementById("titulo").value,
+                descricao: document.getElementById("descricao").value,
+                preco: Number(document.getElementById("preco").value),
+                possuiPreparo: document.getElementById("possuiPreparo").checked
+            }
+            const response = await fetch(`${baseUrl}/api/CardapioItem`,
+                {
+                    method: "POST",
+                    headers: headers,
+                    body: JSON.stringify(cardapioItem)
+                })
+
+            console.log(response, "response edit")
+            if (response.ok) {
+
+                //location.reload()
+            }
+        })
+    })
+
+}
+openCreateModal()
