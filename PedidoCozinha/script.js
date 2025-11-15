@@ -81,3 +81,42 @@ async function removePedidoCozinha(id) {
         })
     console.log(response, "response delete")
 }
+
+function openCreateModal() {
+    const button = document.querySelector("#criar")
+    button.addEventListener("click", () => {
+        document.body.insertAdjacentHTML("beforeend", `
+        <div class="wrapper">
+ <div class="modal">
+            <input type="text" value="" id="comandaId"/>
+           
+            <button id="update">Salvar</button>
+        </div>
+    </div>
+        `)
+
+        const createButton = document.getElementById("create")
+
+        createButton.addEventListener("click", async () => {
+            const PedidoCozinha = {
+                comandaId: Number(document.getElementById("comandaId").value)
+
+
+            }
+            const response = await fetch(`${baseUrl}/api/PedidoCozinha`,
+                {
+                    method: "POST",
+                    headers: headers,
+                    body: JSON.stringify(PedidoCozinha)
+                })
+
+            console.log(response, "response edit")
+            if (response.ok) {
+
+                //location.reload()
+            }
+        })
+    })
+
+}
+openCreateModal()

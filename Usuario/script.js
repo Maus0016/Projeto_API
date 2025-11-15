@@ -134,7 +134,46 @@ async function removeUsuario(id) {
         })
     console.log(response, "response delete")
 }
+function openCreateModal() {
+    const button = document.querySelector("#criar")
+    button.addEventListener("click", () => {
+        document.body.insertAdjacentHTML("beforeend", `
+        <div class="wrapper">
 
+       <div class="modal">
+            <input type="text" value="" id="nome"/>
+            <input type="text" value="" id="email"/>
+            <button id="update">Salvar</button>
+        </div>
+        </div>
+    </div>
+        `)
+
+        const createButton = document.getElementById("create")
+
+        createButton.addEventListener("click", async () => {
+
+            const Usuario = {
+                nome: document.getElementById("nome").value,
+                email: document.getElementById("email").value
+            }
+            const response = await fetch(`${baseUrl}/api/Usuario`,
+                {
+                    method: "POST",
+                    headers: headers,
+                    body: JSON.stringify(Usuario)
+                })
+
+            console.log(response, "response edit")
+            if (response.ok) {
+
+                //location.reload()
+            }
+        })
+    })
+
+}
+openCreateModal()
 
 
 

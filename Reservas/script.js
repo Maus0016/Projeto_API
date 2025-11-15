@@ -84,3 +84,47 @@ async function removeReserva(id) {
         })
     console.log(response, "response delete")
 }
+
+function openCreateModal() {
+    const button = document.querySelector("#criar")
+    button.addEventListener("click", () => {
+        document.body.insertAdjacentHTML("beforeend", `
+        <div class="wrapper">
+
+         <div class="modal">
+           
+            <input type="text" value="" id="numeroMesa"/>
+            <input type="text" value="" id="nomeCliente"/>
+            <input type="text" value="" id="telefone"/>
+
+            <button id="update">Salvar</button>
+        </div>
+    </div>
+        `)
+
+        const createButton = document.getElementById("create")
+
+        createButton.addEventListener("click", async () => {
+            const Reservas = {
+                id: Reservas.id,
+                numeroMesa: Number(document.getElementById("numeroMesa").value),
+                nomeCliente: document.getElementById("nomeCliente").value,
+                telefone: Number(document.getElementById("telefone").value)
+            }
+            const response = await fetch(`${baseUrl}/api/Reservas`,
+                {
+                    method: "POST",
+                    headers: headers,
+                    body: JSON.stringify(Reservas)
+                })
+
+            console.log(response, "response edit")
+            if (response.ok) {
+
+                //location.reload()
+            }
+        })
+    })
+
+}
+openCreateModal()

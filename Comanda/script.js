@@ -77,3 +77,43 @@ async function removeComanda(id) {
         })
     console.log(response, "response delete")
 }
+
+function openCreateModal() {
+    const button = document.querySelector("#criar")
+    button.addEventListener("click", () => {
+        document.body.insertAdjacentHTML("beforeend", `
+        <div class="wrapper">
+
+        <div class="modal">
+            <input type="text" value="" id="numeroMesa"/>
+            <input type="text" value="" id="nomeCliente"/>
+            <button id="update">Salvar</button>
+        </div>
+        </div>
+    </div>
+        `)
+
+        const createButton = document.getElementById("create")
+
+        createButton.addEventListener("click", async () => {
+            const Comanda = {
+                numeroMesa: Number(document.getElementById("numeroMesa").value),
+                nomeCliente: document.getElementById("nomeCliente").value
+            }
+            const response = await fetch(`${baseUrl}/api/Comanda`,
+                {
+                    method: "POST",
+                    headers: headers,
+                    body: JSON.stringify(Comanda)
+                })
+
+            console.log(response, "response edit")
+            if (response.ok) {
+
+                //location.reload()
+            }
+        })
+    })
+
+}
+openCreateModal()
