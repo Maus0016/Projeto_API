@@ -16,53 +16,76 @@ body {
     justify-content: flex-start;
     min-height: 100vh;
     text-align: center;
-    padding: 40px 20px;
+    padding: 80px 40px;
 }
 
 /* Title */
 h1 {
-    font-size: 2.5rem;
+    font-size: 5rem;
     font-weight: 600;
-    margin-bottom: 40px;
-    text-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    margin-bottom: 80px;
+    text-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
-/* Container */
+/* ===================== BACK BUTTON ===================== */
+.back-btn {
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    padding: 18px 32px;
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    border-radius: 18px;
+    font-size: 2rem;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.back-btn:hover {
+    background: white;
+    color: #9b5de5;
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* ===================== AUTO-RESIZING GRID ===================== */
 .container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 25px;
     width: 100%;
-    max-width: 1100px;
+    max-width: 2000px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+    gap: 50px;
+    justify-items: stretch;
 }
 
 /* Reserva card */
 .reserva {
     background: rgba(255, 255, 255, 0.15);
-    border-radius: 16px;
-    padding: 25px;
-    width: 300px;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-    transition: all 0.3s ease;
+    border-radius: 32px;
+    padding: 50px;
+    width: 100%;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.25);
+    transition: 0.3s ease;
     text-align: left;
 }
 
 .reserva:hover {
-    transform: translateY(-6px);
+    transform: translateY(-12px);
     background: rgba(255, 255, 255, 0.25);
 }
 
 /* Reserva details */
 .reserva h2 {
-    font-size: 1.4rem;
-    margin-bottom: 10px;
+    font-size: 2.8rem;
+    margin-bottom: 20px;
 }
 
 .reserva p {
-    font-size: 1rem;
-    margin-bottom: 8px;
+    font-size: 2rem;
+    margin-bottom: 16px;
     color: rgba(255, 255, 255, 0.9);
 }
 
@@ -84,33 +107,37 @@ button {
     background: white;
     color: #9b5de5;
     border: none;
-    padding: 10px 20px;
-    border-radius: 10px;
+    padding: 20px 40px;
+    border-radius: 20px;
+    font-size: 2rem;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 10px;
+    transition: 0.3s ease;
+    margin-top: 20px;
 }
 
 button:hover {
     background: #f15bb5;
     color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    transform: translateY(-4px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
 /* Responsive */
 @media (max-width: 600px) {
     .container {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .reserva {
-        width: 90%;
+        grid-template-columns: 1fr;
+        gap: 40px;
     }
 
     h1 {
-        font-size: 2rem;
+        font-size: 4rem;
+    }
+
+    .back-btn {
+        top: 20px;
+        left: 20px;
+        padding: 14px 24px;
+        font-size: 1.6rem;
     }
 }

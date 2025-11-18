@@ -9,30 +9,34 @@
 </head>
 
 <body>
-  <h1>Mesas</h1>
-  <button id="criar">Criar</button>
 
-  <!-- ✅ Back Button -->
+  <!-- BACK BUTTON ALWAYS AT TOP-LEFT -->
   <a href="../Home/" class="back-btn">← Voltar</a>
 
+  <h1>Mesas</h1>
+
+  <button id="criar">Criar</button>
+
   <div class="container">
-    <div class="mesa">
+
+    <div class="mesa disponivel">
       <p>Mesa #01</p>
       <p>Status: Disponível</p>
       <button>Ocupar Mesa</button>
     </div>
 
-    <div class="mesa">
+    <div class="mesa ocupada">
       <p>Mesa #02</p>
       <p>Status: Ocupada</p>
       <button>Liberar Mesa</button>
     </div>
 
-    <div class="mesa">
+    <div class="mesa reservada">
       <p>Mesa #03</p>
       <p>Status: Reservada</p>
       <button>Ver Detalhes</button>
     </div>
+
   </div>
 
   <script src="./script.js"></script>

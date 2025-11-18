@@ -17,9 +17,8 @@ body {
     height: 100vh;
     text-align: center;
 
-    /* Transition animation base */
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(40px); /* doubled */
     transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
@@ -32,27 +31,27 @@ body.loaded {
 /* Page leaving: fade out and slide up */
 body.fade-out {
     opacity: 0;
-    transform: translateY(-20px);
+    transform: translateY(-40px); /* doubled */
 }
 
 /* ===== PAGE TITLE ===== */
 p {
-    font-size: 2.5rem;
+    font-size: 5rem;        /* doubled */
     font-weight: 600;
-    margin-bottom: 40px;
+    margin-bottom: 80px;    /* doubled */
     animation: fadeSlideDown 0.8s ease both;
 }
 
 /* ===== NAVIGATION BAR ===== */
 nav {
     background: rgba(255, 255, 255, 0.15);
-    padding: 16px 24px;
-    border-radius: 16px;
-    backdrop-filter: blur(10px);
+    padding: 32px 48px;     /* doubled */
+    border-radius: 32px;    /* doubled */
+    backdrop-filter: blur(20px); /* doubled */
     display: flex;
-    gap: 20px;
+    gap: 40px;              /* doubled */
     flex-wrap: wrap;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.15); /* doubled */
     transition: transform 0.6s ease, opacity 0.6s ease;
 }
 
@@ -63,7 +62,7 @@ body.loaded nav {
 
 /* Nav slides out when leaving */
 body.fade-out nav {
-    transform: translateY(-60px);
+    transform: translateY(-120px); /* doubled */
     opacity: 0;
 }
 
@@ -72,10 +71,10 @@ nav a {
     color: white;
     text-decoration: none;
     font-weight: 500;
-    font-size: 1rem;
+    font-size: 2rem;         /* doubled */
     background: rgba(255, 255, 255, 0.1);
-    padding: 10px 20px;
-    border-radius: 10px;
+    padding: 20px 40px;      /* doubled */
+    border-radius: 20px;     /* doubled */
     transition: all 0.3s ease;
 }
 
@@ -83,14 +82,14 @@ nav a {
 nav a:hover {
     background: white;
     color: #0077ff;
-    transform: translateY(-3px);
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    transform: translateY(-6px); /* doubled */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); /* doubled */
 }
 
 /* ===== IMAGE SLIDE EFFECT ===== */
 img {
     opacity: 0;
-    transform: translateX(50px);
+    transform: translateX(100px); /* doubled */
     transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
@@ -103,8 +102,8 @@ body.loaded img {
 @media (max-width: 600px) {
     nav {
         flex-direction: column;
-        gap: 12px;
-        padding: 20px;
+        gap: 24px;          /* doubled */
+        padding: 40px;      /* doubled */
     }
 
     nav a {
@@ -117,7 +116,7 @@ body.loaded img {
 @keyframes fadeSlideDown {
     from {
         opacity: 0;
-        transform: translateY(-20px);
+        transform: translateY(-40px); /* doubled */
     }
     to {
         opacity: 1;
@@ -127,7 +126,7 @@ body.loaded img {
 
 @keyframes navSlideDown {
     from {
-        transform: translateY(-40px);
+        transform: translateY(-80px); /* doubled */
         opacity: 0;
     }
     to {
