@@ -151,3 +151,30 @@ h1 {
         padding: 16px 30px;
     }
 }
+
+/* ========================================================= */
+/* ===============  DATABASE LAYOUT FIXES (ADDED) ========== */
+/* ========================================================= */
+
+/* Prevent long names/values from breaking the card */
+.mesa p {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.3;
+}
+
+/* Keep spacing clean inside mesa card */
+.mesa {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+}
+
+/* Make all buttons inside card line up 100% width */
+.mesa button {
+    width: 100%;
+    margin-top: 12px;
+    padding: 18px 30px;
+    font-size: 1.8rem;
+}
