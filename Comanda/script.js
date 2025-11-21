@@ -1,119 +1,150 @@
-const baseUrl = "http://localhost:5042"
+const baseUrl = "http://localhost:5042";
 const headers = {
     "Content-Type": "application/json"
-}
+};
+
+// =========================
+// GET (LISTAR COMANDAS)
+// =========================
 async function get() {
-    const res = await fetch(`${baseUrl}/api/Comanda`, {
-        headers: headers
-    })
-    console.log(res, "res")
-    const comandas = await res.json()
-    console.log(comandas, "comandas")
-    const container = document.querySelector(".container")
+    const res = await fetch(`${baseUrl}/api/Comanda`, { headers });
+    const comandas = await res.json();
+
+    const container = document.querySelector(".container");
+    container.innerHTML = ""; // clear old cards
+
     comandas.forEach(comanda => {
         container.insertAdjacentHTML("beforeend", `
-          <div class="comanda">
-        <p>Id: ${comanda.id}</p>
-        <p>Número da Mesa: ${comanda.numeroMesa}</p>
-        <p>Status: ${comanda.nomeCliente}</p>
-        <p>Itens: ${comanda.items}</p>
-        <button id="${comanda.id}_edit">Editar Comanda</button> <!-- fazer o PUT -->
-        <button id= ${comanda.id}>Excluir Comanda</button>
-    </div>
-    `)
-        const removeButton = document.getElementById(comanda.id)
-        removeButton.addEventListener("click", () => {
+            <div class="comanda">
+                <p><strong>ID:</strong> ${comanda.id}</p>
+                <p><strong>Mesa:</strong> ${comanda.numeroMesa}</p>
+                <p><strong>Cliente:</strong> ${comanda.nomeCliente}</p>
+                <p><strong>Itens:</strong> ${Array.isArray(comanda.items) ? comanda.items.length : 0}</p>
 
-            console.log("Deletar Comanda", comanda.id)
-            removeComanda(comanda.id)
-        })
-        const editBtnton = document.getElementById(`${comanda.id}_edit`)
-        editBtnton.addEventListener("click", () => {
-            openEditModal(comanda)
-        })
+                <button class="edit-btn" data-id="${comanda.id}">Editar</button>
+                <button class="delete-btn" data-id="${comanda.id}">Excluir</button>
+            </div>
+        `);
     });
 
+    // Attach edit/delete events
+    document.querySelectorAll(".edit-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+            const id = btn.getAttribute("data-id");
+            const selected = comandas.find(c => c.id == id);
+            openEditModal(selected);
+        });
+    });
 
+    document.querySelectorAll(".delete-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+            removeComanda(btn.getAttribute("data-id"));
+        });
+    });
 }
-get()
+
+get();
+
+// =========================
+// MODAL PARA EDITAR
+// =========================
 function openEditModal(comanda) {
+    closeModals();
+
     document.body.insertAdjacentHTML("beforeend", `
         <div class="wrapper">
+            <div class="modal">
+                <h3>Editar Comanda</h3>
+                <input type="number" value="${comanda.numeroMesa}" id="numeroMesa">
+                <input type="text" value="${comanda.nomeCliente}" id="nomeCliente">
 
-        <div class="modal">
-            <input type="text" value="${comanda.numeroMesa}" id="numeroMesa"/>
-            <input type="text" value="${comanda.nomeCliente}" id="nomeCliente"/>
-            <button id="update">Salvar</button>
+                <button id="saveEdit">Salvar</button>
+                <button id="closeModal">Cancelar</button>
+            </div>
         </div>
-    </div>
-        `)
+    `);
 
-    const updateButton = document.getElementById("update")
+    document.getElementById("closeModal").onclick = closeModals;
 
-    updateButton.addEventListener("click", async () => {
+    document.getElementById("saveEdit").onclick = async () => {
         const objComandaUpdate = {
             numeroMesa: Number(document.getElementById("numeroMesa").value),
             nomeCliente: document.getElementById("nomeCliente").value
-        }
-        const response = await fetch(`${baseUrl}/api/Comanda/${comanda.id}`,
-            {
-                method: "PUT",
-                headers: headers,
-                body: JSON.stringify(objComandaUpdate)
-            })
+        };
 
-        console.log(response, "response edit")
+        const response = await fetch(`${baseUrl}/api/Comanda/${comanda.id}`, {
+            method: "PUT",
+            headers,
+            body: JSON.stringify(objComandaUpdate)
+        });
+
         if (response.ok) {
-
-            location.reload()
+            closeModals();
+            get();
         }
-    })
+    };
 }
+
+// =========================
+// DELETE
+// =========================
 async function removeComanda(id) {
+    const response = await fetch(`${baseUrl}/api/Comanda/${id}`, {
+        method: "DELETE"
+    });
 
-    const response = await fetch(`${baseUrl}/api/Comanda/${id}`,
-        {
-            method: "DELETE"
-        })
-    console.log(response, "response delete")
+    if (response.ok) get();
 }
 
+// =========================
+// CRIAR COMANDA
+// =========================
 function openCreateModal() {
-    const button = document.querySelector("#criar")
+    const button = document.querySelector("#criar");
+
     button.addEventListener("click", () => {
+        closeModals();
+
         document.body.insertAdjacentHTML("beforeend", `
-        <div class="wrapper">
+            <div class="wrapper">
+                <div class="modal">
+                    <h3>Criar Comanda</h3>
+                    <input type="number" placeholder="Número da mesa" id="numeroMesa">
+                    <input type="text" placeholder="Nome do cliente" id="nomeCliente">
 
-        <div class="modal">
-            <input type="text" value="" id="numeroMesa"/>
-            <input type="text" value="" id="nomeCliente"/>
-            <button id="update">Salvar</button>
-        </div>
-        </div>
-    </div>
-        `)
+                    <button id="createBtn">Salvar</button>
+                    <button id="closeModal">Cancelar</button>
+                </div>
+            </div>
+        `);
 
-        const createButton = document.getElementById("create")
+        document.getElementById("closeModal").onclick = closeModals;
 
-        createButton.addEventListener("click", async () => {
+        document.getElementById("createBtn").onclick = async () => {
             const Comanda = {
                 numeroMesa: Number(document.getElementById("numeroMesa").value),
                 nomeCliente: document.getElementById("nomeCliente").value
-            }
-            const response = await fetch(`${baseUrl}/api/Comanda`,
-                {
-                    method: "POST",
-                    headers: headers,
-                    body: JSON.stringify(Comanda)
-                })
+            };
 
-            console.log(response, "response edit")
+            const response = await fetch(`${baseUrl}/api/Comanda`, {
+                method: "POST",
+                headers,
+                body: JSON.stringify(Comanda)
+            });
+
             if (response.ok) {
-
-                //location.reload()
+                closeModals();
+                get();
             }
-        })
-    })
-
+        };
+    });
 }
-openCreateModal()
+
+openCreateModal();
+
+// =========================
+// FECHAR MODAIS
+// =========================
+function closeModals() {
+    document.querySelectorAll(".wrapper").forEach(w => w.remove());
+}

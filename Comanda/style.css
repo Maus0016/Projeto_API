@@ -34,8 +34,9 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    height: 100vh;
+    justify-content: flex-start;
+    min-height: 100vh;
+    padding-top: 120px;
     text-align: center;
 }
 
@@ -134,4 +135,31 @@ button:hover {
     h1 {
         font-size: 4rem;
     }
+}
+
+/* ========================================================= */
+/* ================  DATABASE FIXES (ADDED)  =============== */
+/* ========================================================= */
+
+/* Prevent long client names / item lists from breaking layout */
+.comanda p {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.3;
+}
+
+/* Make card layout stable when loaded from backend */
+.comanda {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+}
+
+/* Make edit/delete buttons look cleaner and equal width */
+.comanda button {
+    width: 100%;
+    margin-top: 12px;
+    font-size: 1.8rem;
+    padding: 18px 30px;
 }
