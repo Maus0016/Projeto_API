@@ -95,6 +95,23 @@ function openCreateModal() {
     </div>
         `)
 
+        getCardapioItens();
+
+        async function getCardapioItens() {
+            const res = await fetch(`${baseUrl}/api/CardapioItem`, { headers });
+            const cardapioitens = await res.json();
+            const itensContainer = document.getElementById("itens");
+
+            cardapioitens.forEach(item => {
+                itensContainer.insertAdjacentHTML("beforeend", `
+                    <li>
+                        <label for="item-${item.id}">${item.titulo}</label>
+                        <input type="checkbox" id="item-${item.id}" value="${item.id}" class="item-checkbox"/>
+                    </li>
+                `);
+            });
+        }
+
         const createButton = document.getElementById("create")
 
         createButton.addEventListener("click", async () => {
