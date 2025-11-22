@@ -1,122 +1,121 @@
-const baseUrl = "http://localhost:5042"
-const headers = {
-    "Content-Type": "application/json"
-}
+const baseUrl = "http://localhost:5042";
+const headers = { "Content-Type": "application/json" };
+
+// ------------------------------
+// LOAD ALL PEDIDOS DA COZINHA
+// ------------------------------
 async function get() {
-    const res = await fetch(`${baseUrl}/api/PedidoCozinha`, {
-        headers: headers
-    })
-    console.log(res, "res")
-    const pedidocozinhas = await res.json()
-    console.log(pedidocozinhas, "pedidoscozinha")
-    pedidocozinhas.forEach(pedidocozinha => {
-        const container = document.querySelector(".container")
+    const res = await fetch(`${baseUrl}/api/PedidoCozinha`, { headers });
+    const pedidos = await res.json();
+
+    const container = document.querySelector(".container");
+    container.innerHTML = ""; // remove static items
+
+    pedidos.forEach(pedido => {
+        let statusClass = "pendente";
+
+        if (pedido.status === "Preparo") statusClass = "preparo";
+        if (pedido.status === "Pronto") statusClass = "pronto";
+
         container.insertAdjacentHTML("beforeend", `
-          <div class="pedidocozinha">
-        <p>Id: ${pedidocozinha.id}</p>
-        <p>Comanda Id: ${pedidocozinha.comandaId}</p>
-        <p>Status: ${pedidocozinha.comanda}</p>
-        <p>Itens: ${pedidocozinha.itens}</p>
-        <button id="${pedidocozinha.id}_edit">Editar Pedido da Cozinha</button> <!-- fazer o PUT -->
-        <button id=${pedidocozinha.id}>Cancelar Pedido de Cozinha</button>
-    </div>
-    `)
-        const removeButton = document.getElementById(pedidocozinha.id)
-        removeButton.addEventListener("click", () => {
+            <div class="pedido ${statusClass}">
+                <h2>Pedido #${pedido.id}</h2>
+                <p>Comanda: ${pedido.comandaId}</p>
+                <p>Itens: ${pedido.itens ?? "Nenhum item informado"}</p>
+                <p class="status">Status: ${pedido.status}</p>
 
-            console.log("Deletar Pedido da Cozinha", pedidocozinha.id)
-            removePedidoCozinha(pedidocozinha.id)
+                <button id="${pedido.id}_edit">Editar Pedido</button>
+                <button id="${pedido.id}_delete">Excluir</button>
+            </div>
+        `);
 
-        })
-        const editBtnton = document.getElementById(`${pedidocozinha.id}_edit`)
-        editBtnton.addEventListener("click", () => {
-            openEditModal(pedidocozinha)
-        })
-    })
+        document.getElementById(`${pedido.id}_delete`)
+            .addEventListener("click", () => removePedidoCozinha(pedido.id));
 
+        document.getElementById(`${pedido.id}_edit`)
+            .addEventListener("click", () => openEditModal(pedido));
+    });
 }
-get()
 
-function openEditModal(pedidocozinha) {
+get();
+
+// ------------------------------
+// EDIT MODAL
+// ------------------------------
+function openEditModal(pedido) {
     document.body.insertAdjacentHTML("beforeend", `
         <div class="wrapper">
+            <div class="modal">
+                <input type="number" value="${pedido.comandaId}" id="edit_comandaId"/>
+                <input type="text" value="${pedido.status}" id="edit_status" placeholder="Status"/>
+                <input type="text" value="${pedido.itens}" id="edit_itens" placeholder="Itens"/>
 
-        <div class="modal">
-            <input type="text" value="${pedidocozinha.comandaId}" id="comandaId"/>
-           
-            <button id="update">Salvar</button>
+                <button id="update">Salvar</button>
+            </div>
         </div>
-    </div>
-        `)
+    `);
 
-    const updateButton = document.getElementById("update")
+    document.getElementById("update").addEventListener("click", async () => {
+        const update = {
+            comandaId: Number(document.getElementById("edit_comandaId").value),
+            status: document.getElementById("edit_status").value,
+            itens: document.getElementById("edit_itens").value
+        };
 
-    updateButton.addEventListener("click", async () => {
-        const objPedidoCozinhaUpdate = {
-            comandaId: Number(document.getElementById("comandaId").value)
+        const response = await fetch(`${baseUrl}/api/PedidoCozinha/${pedido.id}`, {
+            method: "PUT",
+            headers,
+            body: JSON.stringify(update)
+        });
 
-        }
-        const response = await fetch(`${baseUrl}/api/PedidoCozinha/${pedidocozinha.id}`,
-            {
-                method: "PUT",
-                headers: headers,
-                body: JSON.stringify(objPedidoCozinhaUpdate)
-            })
-
-        console.log(response, "response edit")
-        if (response.ok) {
-
-            // location.reload()
-        } else {
-            console.error("Erro ao atualizar o pedido da cozinha")
-
-        }
-    })
+        if (response.ok) location.reload();
+    });
 }
+
+// ------------------------------
+// DELETE PEDIDO
+// ------------------------------
 async function removePedidoCozinha(id) {
+    await fetch(`${baseUrl}/api/PedidoCozinha/${id}`, {
+        method: "DELETE"
+    });
 
-    const response = await fetch(`${baseUrl}/api/PedidoCozinha/${id}`,
-        {
-            method: "DELETE"
-        })
-    console.log(response, "response delete")
+    location.reload();
 }
 
+// ------------------------------
+// CREATE NEW PEDIDO
+// ------------------------------
 function openCreateModal() {
-    const button = document.querySelector("#criar")
-    button.addEventListener("click", () => {
+    document.getElementById("criar").addEventListener("click", () => {
         document.body.insertAdjacentHTML("beforeend", `
-        <div class="wrapper">
- <div class="modal">
-            <input type="text" value="" id="comandaId"/>
-           
-            <button id="update">Salvar</button>
-        </div>
-    </div>
-        `)
+            <div class="wrapper">
+                <div class="modal">
+                    <input type="number" id="comandaId" placeholder="Comanda ID"/>
+                    <input type="text" id="status" placeholder="Status"/>
+                    <input type="text" id="itens" placeholder="Itens"/>
 
-        const createButton = document.getElementById("create")
+                    <button id="create">Criar</button>
+                </div>
+            </div>
+        `);
 
-        createButton.addEventListener("click", async () => {
-            const PedidoCozinha = {
-                comandaId: Number(document.getElementById("comandaId").value)
+        document.getElementById("create").addEventListener("click", async () => {
+            const novoPedido = {
+                comandaId: Number(document.getElementById("comandaId").value),
+                status: document.getElementById("status").value,
+                itens: document.getElementById("itens").value
+            };
 
+            const response = await fetch(`${baseUrl}/api/PedidoCozinha`, {
+                method: "POST",
+                headers,
+                body: JSON.stringify(novoPedido)
+            });
 
-            }
-            const response = await fetch(`${baseUrl}/api/PedidoCozinha`,
-                {
-                    method: "POST",
-                    headers: headers,
-                    body: JSON.stringify(PedidoCozinha)
-                })
-
-            console.log(response, "response edit")
-            if (response.ok) {
-
-                //location.reload()
-            }
-        })
-    })
-
+            if (response.ok) location.reload();
+        });
+    });
 }
-openCreateModal()
+
+openCreateModal();
