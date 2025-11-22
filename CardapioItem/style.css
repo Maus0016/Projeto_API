@@ -37,8 +37,8 @@ h1 {
     justify-items: center;
 }
 
-/* ===== COMANDA CARDS ===== */
-.comanda {
+/* ===== RESERVA CARDS ===== */
+.reserva {
     background: rgba(255, 255, 255, 0.15);
     padding: 40px 60px;
     border-radius: 32px;
@@ -49,22 +49,22 @@ h1 {
     transition: all 0.3s ease;
 }
 
-.comanda:hover {
+.reserva:hover {
     transform: translateY(-10px);
     background: rgba(255, 255, 255, 0.25);
 }
 
-/* ===== COMANDA INFO ===== */
-.comanda p {
+/* ===== RESERVA INFO ===== */
+.reserva p {
     margin-bottom: 20px;
     font-size: 2.2rem;
 }
 
+/* ===== BUTTONS ===== */
 button:disabled {
     background-color: #6d6a6a;
 }
 
-/* ===== BUTTONS ===== */
 button {
     background: white;
     color: #6a11cb;
@@ -102,6 +102,31 @@ button:hover:not(:disabled) {
 }
 
 .back-btn:hover {
+    background: white;
+    color: #6a11cb;
+    transform: translateY(-4px);
+}
+
+/* ===== FIXED CREATE BUTTON (BOTTOM-LEFT) ===== */
+.create-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.18);
+    padding: 20px 40px;
+    border-radius: 20px;
+    font-size: 1.8rem;
+    color: white;
+    border: none;
+    backdrop-filter: blur(14px);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 9999;
+}
+
+.create-btn:hover {
     background: white;
     color: #6a11cb;
     transform: translateY(-4px);
