@@ -1,130 +1,107 @@
-const baseUrl = "http://localhost:5042"
-const headers = {
-    "Content-Type": "application/json"
-}
+const baseUrl = "http://localhost:5042";
+const headers = { "Content-Type": "application/json" };
+
 async function get() {
-    const res = await fetch(`${baseUrl}/api/Reservas`, {
-        headers: headers
-    })
-    console.log(res, "res")
-    const Reservas = await res.json()
-    console.log(Reservas, "Reservas")
-    Reservas.forEach(Reserva => {
-        const container = document.querySelector(".container")
+    const res = await fetch(`${baseUrl}/api/Reservas`, { headers });
+    const reservas = await res.json();
+
+    const container = document.querySelector(".container");
+    container.innerHTML = ""; // clear old items
+
+    reservas.forEach(r => {
         container.insertAdjacentHTML("beforeend", `
-          <div class="Reservas">
-        <p>Id: ${Reserva.id}</p>
-        <p>Id: ${Reserva.Id}</p>
-        <p>Numero da Mesa: ${Reserva.numeroMesa}</p>
-        <p>Nome do Cliente: ${Reserva.nomeCliente}</p>
-        <p>Telefone: ${Reserva.telefone}</p>
-         <button id="${Reserva.id}_edit">Editar Reserva</button>
-        <button id=${Reserva.id}>Cancelar Reserva</button>
-    </div>
-    
-    `)
-        const removeButton = document.getElementById(Reserva.id)
-        removeButton.addEventListener("click", () => {
-            console.log("deletar Reserva", Reserva.id)
-            removeReserva(Reserva.id)
-        })
-        const editBtnton = document.getElementById(`${Reserva.id}_edit`)
-        editBtnton.addEventListener("click", () => {
-            openEditModal(Reserva)
-        })
+            <div class="reserva pendente">
+                <h2>Reserva #${r.id}</h2>
+                <p>Mesa: ${r.numeroMesa}</p>
+                <p>Cliente: ${r.nomeCliente}</p>
+                <p>Telefone: ${r.telefone}</p>
 
+                <p class="status">Status: Pendente</p>
+
+                <button id="${r.id}_edit">Editar Reserva</button>
+                <button id="${r.id}">Cancelar Reserva</button>
+            </div>
+        `);
+
+        // Delete
+        document.getElementById(r.id).addEventListener("click", () => {
+            removeReserva(r.id);
+        });
+
+        // Edit
+        document.getElementById(`${r.id}_edit`).addEventListener("click", () => {
+            openEditModal(r);
+        });
     });
-
 }
-get()
-function openEditModal(Reserva) {
+
+get();
+
+function openEditModal(r) {
     document.body.insertAdjacentHTML("beforeend", `
         <div class="wrapper">
-
-        <div class="modal">
-           
-            <input type="text" value="${Reserva.numeroMesa}" id="numeroMesa"/>
-            <input type="text" value="${Reserva.nomeCliente}" id="nomeCliente"/>
-            <input type="text" value="${Reserva.telefone}" id="telefone"/>
-
-            <button id="update">Salvar</button>
+            <div class="modal">
+                <input type="text" value="${r.numeroMesa}" id="numeroMesa"/>
+                <input type="text" value="${r.nomeCliente}" id="nomeCliente"/>
+                <input type="text" value="${r.telefone}" id="telefone"/>
+                <button id="saveEdit">Salvar</button>
+            </div>
         </div>
-    </div>
-        `)
+    `);
 
-    const updateButton = document.getElementById("update")
-
-    updateButton.addEventListener("click", async () => {
-        const objReservaUpdate = {
-            id: Reserva.id,
+    document.getElementById("saveEdit").addEventListener("click", async () => {
+        const updated = {
+            id: r.id,
             numeroMesa: Number(document.getElementById("numeroMesa").value),
             nomeCliente: document.getElementById("nomeCliente").value,
             telefone: Number(document.getElementById("telefone").value)
-        }
-        const response = await fetch(`${baseUrl}/api/Reserva/${Reserva.id}`,
-            {
-                method: "PUT",
-                headers: headers,
-                body: JSON.stringify(objReservaUpdate)
-            })
+        };
 
-        console.log(response, "response edit")
-        if (response.ok) {
+        await fetch(`${baseUrl}/api/Reserva/${r.id}`, {
+            method: "PUT",
+            headers,
+            body: JSON.stringify(updated)
+        });
 
-            location.reload()
-        }
-    })
+        location.reload();
+    });
 }
 
 async function removeReserva(id) {
-
-    const response = await fetch(`${baseUrl}/api/Reservas/${id}`,
-        {
-            method: "DELETE"
-        })
-    console.log(response, "response delete")
+    await fetch(`${baseUrl}/api/Reservas/${id}`, { method: "DELETE" });
+    location.reload();
 }
 
 function openCreateModal() {
-    const button = document.querySelector("#criar")
+    const button = document.querySelector("#criar");
     button.addEventListener("click", () => {
         document.body.insertAdjacentHTML("beforeend", `
-        <div class="wrapper">
+            <div class="wrapper">
+                <div class="modal">
+                    <input type="text" id="numeroMesa" placeholder="Mesa"/>
+                    <input type="text" id="nomeCliente" placeholder="Cliente"/>
+                    <input type="text" id="telefone" placeholder="Telefone"/>
+                    <button id="saveCreate">Salvar</button>
+                </div>
+            </div>
+        `);
 
-         <div class="modal">
-           
-            <input type="text" value="" id="numeroMesa"/>
-            <input type="text" value="" id="nomeCliente"/>
-            <input type="text" value="" id="telefone"/>
-
-            <button id="update">Salvar</button>
-        </div>
-    </div>
-        `)
-
-        const createButton = document.getElementById("create")
-
-        createButton.addEventListener("click", async () => {
-            const Reservas = {
-                id: Reservas.id,
+        document.getElementById("saveCreate").addEventListener("click", async () => {
+            const novaReserva = {
                 numeroMesa: Number(document.getElementById("numeroMesa").value),
                 nomeCliente: document.getElementById("nomeCliente").value,
                 telefone: Number(document.getElementById("telefone").value)
-            }
-            const response = await fetch(`${baseUrl}/api/Reservas`,
-                {
-                    method: "POST",
-                    headers: headers,
-                    body: JSON.stringify(Reservas)
-                })
+            };
 
-            console.log(response, "response edit")
-            if (response.ok) {
+            await fetch(`${baseUrl}/api/Reservas`, {
+                method: "POST",
+                headers,
+                body: JSON.stringify(novaReserva)
+            });
 
-                //location.reload()
-            }
-        })
-    })
-
+            location.reload();
+        });
+    });
 }
-openCreateModal()
+
+openCreateModal();
