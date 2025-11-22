@@ -132,7 +132,7 @@ function openCreateModal() {
             cardapioitens.forEach(item => {
                 itensContainer.insertAdjacentHTML("beforeend", `
                     <li>
-                        <label for="item-${item.id}">${item.nome}</label>
+                        <label for="item-${item.id}">${item.titulo}</label>
                         <input type="checkbox" id="item-${item.id}" value="${item.id}" class="item-checkbox"/>
                     </li>
                 `);
