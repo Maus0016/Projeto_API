@@ -47,3 +47,5 @@ async function get() {
 }
 
 get();
+
+

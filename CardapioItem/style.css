@@ -107,7 +107,7 @@ button:hover:not(:disabled) {
     transform: translateY(-4px);
 }
 
-/* ===== FIXED CREATE BUTTON (BOTTOM-LEFT) ===== */
+/* ===== FIXED CREATE BUTTON (BOTTOM-RIGHT) ===== */
 .create-btn {
     position: fixed;
     bottom: 20px;
