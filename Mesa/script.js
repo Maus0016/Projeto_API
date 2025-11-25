@@ -48,4 +48,118 @@ async function get() {
 
 get();
 
+function openEditModal(comanda) {
+    closeModals();
+
+    document.body.insertAdjacentHTML("beforeend", `
+        <div class="wrapper">
+            <div class="modal">
+                <h3>Editar Comanda</h3>
+                <input type="number" value="${comanda.numeroMesa}" id="numeroMesa">
+                <input type="text" value="${comanda.nomeCliente}" id="nomeCliente">
+
+                <button id="saveEdit">Salvar</button>
+                <button id="closeModal">Cancelar</button>
+            </div>
+        </div>
+    `);
+
+    document.getElementById("closeModal").onclick = closeModals;
+
+    document.getElementById("saveEdit").onclick = async () => {
+        const objComandaUpdate = {
+            numeroMesa: Number(document.getElementById("numeroMesa").value),
+            nomeCliente: document.getElementById("nomeCliente").value
+        };
+
+        const response = await fetch(`${baseUrl}/api/Comanda/${comanda.id}`, {
+            method: "PUT",
+            headers,
+            body: JSON.stringify(objComandaUpdate)
+        });
+
+        if (response.ok) {
+            closeModals();
+            get();
+        }
+    };
+}
+
+// =========================
+// DELETE
+// =========================
+async function removeComanda(id) {
+    const response = await fetch(`${baseUrl}/api/Comanda/${id}`, {
+        method: "DELETE"
+    });
+
+    if (response.ok) get();
+}
+
+// =========================
+// CRIAR COMANDA
+// =========================
+function openCreateModal() {
+    const button = document.querySelector("#criar");
+
+    button.addEventListener("click", () => {
+        closeModals();
+
+        document.body.insertAdjacentHTML("beforeend", `
+            <div class="wrapper">
+                <div class="modal">
+                    <h3>Criar Comanda</h3>
+                    <ul id="itens">
+                    </ul>
+                    <input type="number" placeholder="Número da mesa" id="numeroMesa">
+                    <input type="text" placeholder="Nome do cliente" id="nomeCliente">
+                    <input type="text" placeholder="Itens" id="comandaItens" id="itens[]"/>
+                    <label for="itens">Itens (separados por vírgula)</label>
+                    
+
+                    <button id="createBtn">Salvar</button>
+                    <button id="closeModal">Cancelar</button>
+                </div>
+            </div>
+        `);
+    });
+
+    document.getElementById("closeModal").onclick = closeModals;
+
+    document.getElementById("createBtn").onclick = async () => {
+        // const selectedItems = Array.from(document.querySelectorAll(".item-checkbox:checked")).map(cb => Number(cb.value));
+        const itensSelecionados = [];
+        const check = document.querySelectorAll(".item-checkbox");
+        check.forEach(item => {
+            if (item.checked) {
+                itensSelecionados.push(Number(item.value));
+            }
+        })
+        console.log(itensSelecionados, "itens selecionados");
+        const mesas = {
+            numeroMesa: Number(document.getElementById("numeroMesa").value),
+            nomeCliente: document.getElementById("nomeCliente").value,
+            cardapioItemIds: itensSelecionados
+        };
+
+        const response = await fetch(`${baseUrl}/api/Mesa`, {
+            method: "POST",
+            headers,
+            body: JSON.stringify(mesas)
+        });
+
+        if (response.ok) {
+            closeModals();
+            get();
+        };
+    };
+}
+function closeModals() {
+    document.querySelectorAll(".wrapper").forEach(w => w.remove());
+}
+
+
+
+
+
 
