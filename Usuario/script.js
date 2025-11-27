@@ -109,7 +109,8 @@ function openEditModal(usuario) {
     updateButton.addEventListener("click", async () => {
         const objusuarioUpdate = {
             nome: document.getElementById("nome").value,
-            email: document.getElementById("email").value
+            email: document.getElementById("email").value,
+            senha: usuario.senha
         }
         const response = await fetch(`${baseUrl}/api/Usuario/${usuario.id}`,
             {
