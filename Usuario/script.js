@@ -110,7 +110,7 @@ function openEditModal(usuario) {
         const objusuarioUpdate = {
             nome: document.getElementById("nome").value,
             email: document.getElementById("email").value,
-            senha: usuario.senha
+            senha: document.getElementById("senha").value
         }
         const response = await fetch(`${baseUrl}/api/Usuario/${usuario.id}`,
             {
@@ -144,7 +144,8 @@ function openCreateModal() {
        <div class="modal">
             <input type="text" value="" id="nome"/>
             <input type="text" value="" id="email"/>
-            <button id="update">Salvar</button>
+            <input type="text" value="" id="senha"/>
+            <button id="create">Salvar</button>
         </div>
         </div>
     </div>
@@ -156,7 +157,8 @@ function openCreateModal() {
 
             const Usuario = {
                 nome: document.getElementById("nome").value,
-                email: document.getElementById("email").value
+                email: document.getElementById("email").value,
+                senha: document.getElementById("senha").value
             }
             const response = await fetch(`${baseUrl}/api/Usuario`,
                 {
