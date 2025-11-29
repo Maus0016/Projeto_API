@@ -50,13 +50,13 @@ get();
 
 function openEditModal(comanda) {
     closeModals();
-
+    console.log(comanda, "comanda to edit");
     document.body.insertAdjacentHTML("beforeend", `
         <div class="wrapper">
             <div class="modal">
                 <h3>Editar Comanda</h3>
                 <input type="number" value="${comanda.numeroMesa}" id="numeroMesa">
-                <input type="text" value="${comanda.nomeCliente}" id="nomeCliente">
+                <input type="text" value="${comanda.situacaoMesa}" id="nomeCliente">
 
                 <button id="saveEdit">Salvar</button>
                 <button id="closeModal">Cancelar</button>
@@ -67,15 +67,15 @@ function openEditModal(comanda) {
     document.getElementById("closeModal").onclick = closeModals;
 
     document.getElementById("saveEdit").onclick = async () => {
-        const objComandaUpdate = {
+        const objMesaUpdate = {
             numeroMesa: Number(document.getElementById("numeroMesa").value),
-            nomeCliente: document.getElementById("nomeCliente").value
+            situacaoMesa: document.getElementById("situacaoMesa")
         };
 
-        const response = await fetch(`${baseUrl}/api/Comanda/${comanda.id}`, {
+        const response = await fetch(`${baseUrl}/api/Mesa/${comanda.id}`, {
             method: "PUT",
             headers,
-            body: JSON.stringify(objComandaUpdate)
+            body: JSON.stringify(objMesaUpdate)
         });
 
         if (response.ok) {
@@ -101,7 +101,7 @@ async function removeComanda(id) {
 // =========================
 function openCreateModal() {
     const button = document.querySelector("#criar");
-
+    console.log(button, "botao criar");
     button.addEventListener("click", () => {
         closeModals();
 
@@ -112,7 +112,7 @@ function openCreateModal() {
                     <ul id="itens">
                     </ul>
                     <input type="number" placeholder="Número da mesa" id="numeroMesa">
-                    <input type="text" placeholder="Nome do cliente" id="nomeCliente">
+                    <input type="text" placeholder="Status da Mesa" id="situacaoMesa">
                     <input type="text" placeholder="Itens" id="comandaItens" id="itens[]"/>
                     <label for="itens">Itens (separados por vírgula)</label>
                     
@@ -122,42 +122,64 @@ function openCreateModal() {
                 </div>
             </div>
         `);
-    });
+        const createButton = document.getElementById("createBtn")
 
-    document.getElementById("closeModal").onclick = closeModals;
+        createButton.addEventListener("click", async () => {
 
-    document.getElementById("createBtn").onclick = async () => {
-        // const selectedItems = Array.from(document.querySelectorAll(".item-checkbox:checked")).map(cb => Number(cb.value));
-        const itensSelecionados = [];
-        const check = document.querySelectorAll(".item-checkbox");
-        check.forEach(item => {
-            if (item.checked) {
-                itensSelecionados.push(Number(item.value));
+            const mesa = {
+
+            }
+            const response = await fetch(`${baseUrl}/api/Mesa`,
+                {
+                    method: "POST",
+                    headers: headers,
+                    body: JSON.stringify(mesa)
+                })
+
+            console.log(response, "response edit")
+            if (response.ok) {
+
+                //location.reload()
             }
         })
-        console.log(itensSelecionados, "itens selecionados");
-        const mesas = {
-            numeroMesa: Number(document.getElementById("numeroMesa").value),
-            nomeCliente: document.getElementById("nomeCliente").value,
-            cardapioItemIds: itensSelecionados
-        };
 
-        const response = await fetch(`${baseUrl}/api/Mesa`, {
-            method: "POST",
-            headers,
-            body: JSON.stringify(mesas)
-        });
 
-        if (response.ok) {
-            closeModals();
-            get();
-        };
-    };
+    });
+
+    //document.getElementById("closeModal").onclick = closeModals;
+
+    // document.getElementById("createBtn").onclick = async () => {
+    //     // const selectedItems = Array.from(document.querySelectorAll(".item-checkbox:checked")).map(cb => Number(cb.value));
+    //     const itensSelecionados = [];
+    //     const check = document.querySelectorAll(".item-checkbox");
+    //     check.forEach(item => {
+    //         if (item.checked) {
+    //             itensSelecionados.push(Number(item.value));
+    //         }
+    //     })
+    //     console.log(itensSelecionados, "itens selecionados");
+    //     const mesas = {
+    //         numeroMesa: Number(document.getElementById("numeroMesa").value),
+    //         nomeCliente: document.getElementById("nomeCliente").value,
+    //         cardapioItemIds: itensSelecionados
+    //     };
+
+    //     const response = await fetch(`${baseUrl}/api/Mesa`, {
+    //         method: "POST",
+    //         headers,
+    //         body: JSON.stringify(mesas)
+    //     });
+
+    //     if (response.ok) {
+    //         closeModals();
+    //         get();
+    //     };
+    // };
 }
 function closeModals() {
     document.querySelectorAll(".wrapper").forEach(w => w.remove());
 }
-
+openCreateModal()
 
 
 
