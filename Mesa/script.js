@@ -48,15 +48,15 @@ async function get() {
 
 get();
 
-function openEditModal(comanda) {
+function openEditModal(mesa) {
     closeModals();
-    console.log(comanda, "comanda to edit");
+    console.log(mesa, "mesa to edit");
     document.body.insertAdjacentHTML("beforeend", `
         <div class="wrapper">
             <div class="modal">
-                <h3>Editar Comanda</h3>
-                <input type="number" value="${comanda.numeroMesa}" id="numeroMesa">
-                <input type="text" value="${comanda.situacaoMesa}" id="nomeCliente">
+                <h3>Editar Mesa</h3>
+                <input type="number" value="${mesa.numeroMesa}" id="numeroMesa">
+                <input type="text" value="${mesa.situacaoMesa}" id="situacaoMesa">
 
                 <button id="saveEdit">Salvar</button>
                 <button id="closeModal">Cancelar</button>
@@ -72,7 +72,7 @@ function openEditModal(comanda) {
             situacaoMesa: document.getElementById("situacaoMesa")
         };
 
-        const response = await fetch(`${baseUrl}/api/Mesa/${comanda.id}`, {
+        const response = await fetch(`${baseUrl}/api/Mesa/${mesa.id}`, {
             method: "PUT",
             headers,
             body: JSON.stringify(objMesaUpdate)
@@ -88,8 +88,8 @@ function openEditModal(comanda) {
 // =========================
 // DELETE
 // =========================
-async function removeComanda(id) {
-    const response = await fetch(`${baseUrl}/api/Comanda/${id}`, {
+async function removeMesa(id) {
+    const response = await fetch(`${baseUrl}/api/Mesa/${id}`, {
         method: "DELETE"
     });
 
@@ -108,13 +108,12 @@ function openCreateModal() {
         document.body.insertAdjacentHTML("beforeend", `
             <div class="wrapper">
                 <div class="modal">
-                    <h3>Criar Comanda</h3>
+                    <h3>Criar Mesa</h3>
                     <ul id="itens">
                     </ul>
                     <input type="number" placeholder="Número da mesa" id="numeroMesa">
                     <input type="text" placeholder="Status da Mesa" id="situacaoMesa">
-                    <input type="text" placeholder="Itens" id="comandaItens" id="itens[]"/>
-                    <label for="itens">Itens (separados por vírgula)</label>
+                    
                     
 
                     <button id="createBtn">Salvar</button>
