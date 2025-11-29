@@ -28,7 +28,58 @@
         </div>
     </div>
 
+    <!-- ========================================================= -->
+    <!-- ===================== NEW MODAL HERE ==================== -->
+    <!-- ========================================================= -->
+
+    <div class="wrapper" id="modal-wrapper" style="display: none;">
+        <div class="modal">
+
+            <h2>Criar Comanda</h2>
+
+            <form id="modal-form">
+
+                <div class="form-group">
+                    <label for="mesa">Número da mesa</label>
+                    <input type="text" id="mesa">
+                </div>
+
+                <div class="form-group">
+                    <label for="cliente">Nome do cliente</label>
+                    <input type="text" id="cliente">
+                </div>
+
+                <!-- ======================= CHECKLIST ======================= -->
+                <div class="form-group">
+                    <label>Itens do Pedido</label>
+
+                    <div class="checklist">
+                        <label><input type="checkbox" value="Refrigerante Lata"> Refrigerante Lata</label>
+                        <label><input type="checkbox" value="Pizza Média"> Pizza média</label>
+                        <label><input type="checkbox" value="Hamburger"> Hamburger</label>
+                        <label><input type="checkbox" value="Água com gás"> Água com gás</label>
+                        <label><input type="checkbox" value="Xis Tudo"> Xis tudo</label>
+                        <label><input type="checkbox" value="Xis Bacon"> Xis bacon</label>
+                        <label><input type="checkbox" value="Batata frita"> Batata frita</label>
+                        <label><input type="checkbox" value="Cerveja"> Cerveja</label>
+                    </div>
+                </div>
+                <!-- ======================================================== -->
+
+            </form>
+
+            <div class="modal-buttons">
+                <button class="btn cancel" id="btn-cancelar">Cancelar</button>
+                <button class="btn save" id="btn-salvar">Salvar</button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ========================================================= -->
+
     <script src="./script.js"></script>
+
 </body>
 
 </html>

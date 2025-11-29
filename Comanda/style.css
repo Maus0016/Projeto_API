@@ -141,14 +141,12 @@ button:hover {
 /* ================  DATABASE FIXES (ADDED)  =============== */
 /* ========================================================= */
 
-/* Prevent long client names / item lists from breaking layout */
 .comanda p {
     word-wrap: break-word;
     overflow-wrap: break-word;
     line-height: 1.3;
 }
 
-/* Make card layout stable when loaded from backend */
 .comanda {
     display: flex;
     flex-direction: column;
@@ -156,10 +154,126 @@ button:hover {
     gap: 10px;
 }
 
-/* Make edit/delete buttons look cleaner and equal width */
 .comanda button {
     width: 100%;
     margin-top: 12px;
     font-size: 1.8rem;
     padding: 18px 30px;
+}
+
+/* ========================================================= */
+/* ================  MODERN MODAL UPGRADE  ================= */
+/* ========================================================= */
+
+/* Keep your .wrapper and .modal — add enhancements */
+
+.modal {
+    width: 500px;
+    max-width: 92%;
+    padding: 35px;
+    border-radius: 20px;
+    animation: fadeIn 0.25s ease-out;
+}
+
+/* Modal title */
+.modal h2 {
+    margin-bottom: 20px;
+    color: #6a11cb;
+    font-size: 2rem;
+}
+
+/* Form fields */
+.modal form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.modal label {
+    text-align: left;
+    font-size: 1rem;
+    margin-bottom: 4px;
+    color: #444;
+}
+
+.modal input,
+.modal textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 1rem;
+}
+
+/* Bottom button row */
+.modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+    margin-top: 25px;
+}
+
+.modal-buttons .btn {
+    padding: 12px 24px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1.2rem;
+    border: none;
+    transition: 0.2s;
+}
+
+.btn.cancel {
+    background: #eee;
+    color: #555;
+}
+
+.btn.cancel:hover {
+    background: #ddd;
+}
+
+.btn.save {
+    background: #6a11cb;
+    color: white;
+}
+
+.btn.save:hover {
+    background: #580ba8;
+}
+
+/* Fade animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========================================================= */
+/* ===================== CHECKLIST STYLE ==================== */
+/* ========================================================= */
+
+.checklist {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 20px;
+    margin-top: 10px;
+}
+
+.checklist label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1rem;
+    color: #444;
+}
+
+.checklist input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
 }
