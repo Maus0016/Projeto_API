@@ -1,182 +1,207 @@
-
-
-const baseUrl = "http://localhost:5042"
+// ==========================
+// CONFIG
+// ==========================
+const baseUrl = "http://localhost:5042";
 const headers = {
     "Content-Type": "application/json"
+};
+
+// modal elements
+const modal = document.getElementById("modal");
+const modalTitle = document.getElementById("modal-title");
+const editName = document.getElementById("editName");
+const editEmail = document.getElementById("editEmail");
+const editPassword = document.getElementById("editPassword");
+
+let editingUserId = null; // used by edit mode
+
+
+
+// ==========================
+// OPEN + CLOSE MODAL
+// ==========================
+function showModal() {
+    modal.classList.remove("hidden"); // <-- THIS is the missing line causing all your pain
+    modal.classList.add("show");
 }
+function closeModal() {
+    modal.classList.remove("show");
+    setTimeout(() => modal.classList.add("hidden"), 200);
+}
+
+document.getElementById("cancelar").addEventListener("click", closeModal);
+
+
+
+// ==========================
+// LOAD USERS
+// ==========================
 async function get() {
-    const res = await fetch(`${baseUrl}/api/Usuario`, {
-        headers: headers
-    })
-    console.log(res, "res")
-    const users = await res.json()
-    console.log(users, "users")
-    users.forEach(user => {
-        const container = document.querySelector(".container")
-        container.insertAdjacentHTML("beforeend", `
-          <div class="usuario">
-        <p>Id: ${user.id}</p>
-        <p>Nome: ${user.nome}</p>
-        <p>Email: ${user.email}</p>
-            <button id="${user.id}_edit">Editar Usuario</button>
-        <button id=${user.id}>Deletar Usuario</button>
-    </div>
-    `)
-        const removeButton = document.getElementById(user.id)
-        removeButton.addEventListener("click", () => {
-            //delete user
-            console.log("deletar usuario", user.id)
-            removeUsuario(user.id)
-        })
-        const editBtnton = document.getElementById(`${user.id}_edit`)
-        editBtnton.addEventListener("click", () => {
-            openEditModal(user)
-        })
-    })
+    try {
+        const res = await fetch(`${baseUrl}/api/Usuario`, { headers });
+        const users = await res.json();
+
+        const container = document.querySelector(".container");
+        container.innerHTML = "";
+
+        users.forEach(user => {
+            const statusClass =
+                user.status === "Ativo" ? "ativo" :
+                user.status === "Inativo" ? "inativo" :
+                "admin";
+
+            // labels unchanged
+            const buttonLabel =
+                user.status === "Ativo" ? "Editar" :
+                user.status === "Inativo" ? "Reativar" :
+                "Gerenciar";
+
+            const cardHTML = `
+                <div class="usuario ${statusClass}">
+                    <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png">
+
+                    <h2>${user.nome}</h2>
+
+                    <p>Email:<br> ${user.email}</p>
+
+                    <p class="status">Status: ${user.status}</p>
+
+                    <button class="edit-btn" data-edit="${user.id}">${buttonLabel}</button>
+                    <button class="delete-btn" data-delete="${user.id}">Excluir</button>
+                </div>
+            `;
+
+            container.insertAdjacentHTML("beforeend", cardHTML);
+        });
+
+        // delete buttons
+        document.querySelectorAll("[data-delete]").forEach(btn => {
+            btn.addEventListener("click", () => removeUsuario(btn.dataset.delete));
+        });
+
+        // EDIT / GERENCIAR buttons
+        document.querySelectorAll("[data-edit]").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const id = btn.dataset.edit;
+                const user = users.find(u => u.id === id);
+
+                // Always open EDIT modal
+                openEditModal(user);
+            });
+        });
+
+    } catch (err) {
+        console.error("Erro:", err);
+    }
 }
-get()
-async function create(params) {
-    const res = await fetch(`${baseUrl}/api/Usuario`)
+
+get();
+
+
+
+// ==========================
+// DELETE USER
+// ==========================
+async function removeUsuario(id) {
+    if (!confirm("Deseja realmente deletar este usuário?")) return;
+
+    const res = await fetch(`${baseUrl}/api/Usuario/${id}`, { method: "DELETE" });
+
+    if (res.ok) {
+        toastify("sucesso", "Usuário deletado.");
+        get();
+    } else {
+        toastify("erro", "Erro ao deletar.");
+    }
 }
 
-function init() {
-    const form = document.querySelector("form")
-    form.addEventListener("submit", (event) => {
-        event.preventDefault()
-        createuser()
 
-    })
+
+// ==========================
+// CREATE USER
+// ==========================
+document.getElementById("criar").addEventListener("click", () => {
+    editingUserId = null;
+
+    modalTitle.textContent = "Criar Usuário";
+    editName.value = "";
+    editEmail.value = "";
+    editPassword.value = "";
+
+    showModal();
+});
+
+
+
+// ==========================
+// EDIT USER
+// ==========================
+function openEditModal(user) {
+    editingUserId = user.id;
+
+    modalTitle.textContent = "Editar Usuário";
+    editName.value = user.nome;
+    editEmail.value = user.email;
+    editPassword.value = "";
+
+    showModal();
 }
-// init()
 
-function abrirModal() {
-    const body = document.body
 
-    body.insertAdjacentElement("beforeend")
-}
 
+// ==========================
+// SAVE (Create or Update)
+// ==========================
+document.getElementById("salvar").addEventListener("click", async () => {
+
+    const payload = {
+        nome: editName.value,
+        email: editEmail.value,
+        senha: editPassword.value
+    };
+
+    let res;
+
+    if (editingUserId === null) {
+        // CREATE
+        res = await fetch(`${baseUrl}/api/Usuario`, {
+            method: "POST",
+            headers,
+            body: JSON.stringify(payload)
+        });
+    } else {
+        // UPDATE
+        res = await fetch(`${baseUrl}/api/Usuario/${editingUserId}`, {
+            method: "PUT",
+            headers,
+            body: JSON.stringify(payload)
+        });
+    }
+
+    if (res.ok) {
+        toastify("sucesso", editingUserId ? "Usuário atualizado!" : "Usuário criado!");
+        closeModal();
+        get();
+    } else {
+        toastify("erro", "Erro ao salvar.");
+    }
+});
+
+
+
+// ==========================
+// TOAST MESSAGE
+// ==========================
 function toastify(tipo, mensagem) {
-    document.body.insertAdjacentHTML("beforeend", `
-        <div class="toastify ${tipo}">
-        <p>${mensagem}<p>
-        </div>
-        `)
-    const toas = document.querySelector(".toastify")
-    setTimeout(() => {
+    const id = "toast_" + Date.now();
 
-        toas.remove()
+    document.body.insertAdjacentHTML("beforeend", `
+        <div id="${id}" class="toastify ${tipo}">
+            <p>${mensagem}</p>
+        </div>
+    `);
+
+    setTimeout(() => {
+        document.getElementById(id)?.remove();
     }, 3000);
 }
-async function createUsuario() {
-    const name = document.querySelector("#name")
-    const senha = document.querySelector("#senha")
-    const usuario = {
-        name: name.value,
-        senha: senha.value
-    }
-    const response = await fetch(`${baseUrl}/api/Usuario`,
-        {
-            method: "POST",
-            headers: headers,
-            body: JSON.stringify(usuario)
-        })
-
-    console.log(response, "response")
-    if (response.ok) {
-        const UsuarioS = await response.json()
-        console.log(UsuarioS, "users")
-        toastify("Sucesso", "Usuario ou senha invalidos.")
-    }
-    else {
-        toastify("Sucesso", "Login efetuado com sucesso!")
-    }
-
-}
-function openEditModal(usuario) {
-    document.body.insertAdjacentHTML("beforeend", `
-        <div class="wrapper">
-
-        <div class="modal">
-            <input type="text" value="${usuario.nome}" id="nome"/>
-            <input type="text" value="${usuario.email}" id="email"/>
-            <button id="update">Salvar</button>
-        </div>
-    </div>
-        `)
-
-    const updateButton = document.getElementById("update")
-
-    updateButton.addEventListener("click", async () => {
-        const objusuarioUpdate = {
-            nome: document.getElementById("nome").value,
-            email: document.getElementById("email").value,
-            senha: document.getElementById("senha").value
-        }
-        const response = await fetch(`${baseUrl}/api/Usuario/${usuario.id}`,
-            {
-                method: "PUT",
-                headers: headers,
-                body: JSON.stringify(objusuarioUpdate)
-            })
-
-        console.log(response, "response edit")
-        if (response.ok) {
-
-            location.reload()
-        }
-    })
-}
-
-async function removeUsuario(id) {
-
-    const response = await fetch(`${baseUrl}/api/Usuario/${id}`,
-        {
-            method: "DELETE"
-        })
-    console.log(response, "response delete")
-}
-function openCreateModal() {
-    const button = document.querySelector("#criar")
-    button.addEventListener("click", () => {
-        document.body.insertAdjacentHTML("beforeend", `
-        <div class="wrapper">
-
-       <div class="modal">
-            <input type="text" value="" id="nome"/>
-            <input type="text" value="" id="email"/>
-            <input type="text" value="" id="senha"/>
-            <button id="create">Salvar</button>
-        </div>
-        </div>
-    </div>
-        `)
-
-        const createButton = document.getElementById("create")
-
-        createButton.addEventListener("click", async () => {
-
-            const Usuario = {
-                nome: document.getElementById("nome").value,
-                email: document.getElementById("email").value,
-                senha: document.getElementById("senha").value
-            }
-            const response = await fetch(`${baseUrl}/api/Usuario`,
-                {
-                    method: "POST",
-                    headers: headers,
-                    body: JSON.stringify(Usuario)
-                })
-
-            console.log(response, "response edit")
-            if (response.ok) {
-
-                //location.reload()
-            }
-        })
-    })
-
-}
-openCreateModal()
-
-
-

@@ -15,10 +15,35 @@
 
     <h1>Reservas</h1>
 
-    <button id="criar">Criar</button>
+    <!-- SINGLE Create button (top right) -->
+    <div class="create-bar" id="criarReserva">Criar</div>
 
-    <!-- EMPTY CONTAINER — JS FILLS IT -->
+    <!-- JS FILLS THIS -->
     <div class="container"></div>
+
+    <!-- BEAUTIFUL MODAL (matches CSS I made for you) -->
+    <div id="modalReserva" class="modal hidden">
+    <div class="modal-content">
+
+        <h2>Criar / Editar Reserva</h2>
+
+        <label>Cliente:</label>
+        <input type="text" id="reservaCliente">
+
+        <label>Data:</label>
+        <input type="date" id="reservaData">
+
+        <label>Descrição:</label>
+        <textarea id="reservaDescricao"></textarea>
+
+        <div class="modal-buttons">
+            <button id="salvarReserva">Salvar</button>
+            <button class="closeModal">Cancelar</button>
+        </div>
+
+    </div>
+</div>
+
 
     <script src="./script.js"></script>
 </body>

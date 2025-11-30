@@ -9,36 +9,66 @@
 </head>
 
 <body>
+
     <h1>Usuários</h1>
+
     <!-- Back Button -->
     <a href="../Home/" class="back-btn">← Voltar</a>
+
+    <!-- Create Button -->
     <button id="criar">Criar</button>
+
+    <!-- USER CARDS -->
     <div class="container">
         <div class="usuario ativo">
-            <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="User Icon">
-            <h2>Maria Silva</h2>
-            <p>Email: maria.silva@example.com</p>
+            <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="User Icon">
+            <h2 data-name>Maria Silva</h2>
+            <p data-email>Email: maria.silva@example.com</p>
             <p class="status">Status: Ativo</p>
-            <button>Editar</button>
+            <button class="edit-btn">Editar</button>
+            <button class="delete-btn">Excluir</button>
         </div>
 
         <div class="usuario inativo">
-            <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="User Icon">
-            <h2>João Pereira</h2>
-            <p>Email: joao.pereira@example.com</p>
+            <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="User Icon">
+            <h2 data-name>João Pereira</h2>
+            <p data-email>Email: joao.pereira@example.com</p>
             <p class="status">Status: Inativo</p>
-            <button>Reativar</button>
+            <button class="edit-btn">Editar</button>
+            <button class="delete-btn">Excluir</button>
         </div>
 
         <div class="usuario admin">
-            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Admin Icon">
-            <h2>Ana Souza</h2>
-            <p>Email: ana.souza@example.com</p>
+            <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Admin Icon">
+            <h2 data-name>Ana Souza</h2>
+            <p data-email>Email: ana.souza@example.com</p>
             <p class="status">Status: Administrador</p>
-            <button>Gerenciar</button>
+            <button class="edit-btn">Gerenciar</button>
+            <button class="delete-btn">Excluir</button>
         </div>
     </div>
-</body>
-<script src="./script.js"></script>
 
+    <!-- REAL MODAL (100% hidden by default) -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h2 id="modal-title">Editar Usuário</h2>
+
+            <label>Nome:</label>
+            <input id="editName" type="text">
+
+            <label>Email:</label>
+            <input id="editEmail" type="email">
+
+            <label>Senha:</label>
+            <input id="editPassword" type="password" placeholder="Digite nova senha">
+
+            <div class="modal-buttons">
+                <button id="salvar" class="save">Salvar</button>
+                <button id="cancelar" class="close">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="./script.js"></script>
+</body>
 </html>
