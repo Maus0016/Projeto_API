@@ -6,57 +6,51 @@ async function get() {
     const mesas = await res.json();
 
     const container = document.querySelector(".container");
-    container.innerHTML = ""; // Clear first for clean render
+    container.innerHTML = "";
 
     mesas.forEach(mesa => {
-        // convert number → string
         let situacaoText = "Disponível";
         let cssClass = "disponivel";
 
-        if (mesa.situacaoMesa === 1) {
-            situacaoText = "Ocupada";
-            cssClass = "ocupada";
-        } else if (mesa.situacaoMesa === 2) {
-            situacaoText = "Reservada";
-            cssClass = "reservada";
-        }
+        if (mesa.situacaoMesa === 1) { situacaoText = "Ocupada"; cssClass = "ocupada"; }
+        if (mesa.situacaoMesa === 2) { situacaoText = "Reservada"; cssClass = "reservada"; }
 
-        container.insertAdjacentHTML(
-            "beforeend",
-            `
-        <div class="mesa ${cssClass}">
-            <p>Mesa #${mesa.numeroMesa}</p>
-            <p>Status: ${situacaoText}</p>
+        container.insertAdjacentHTML("beforeend", `
+            <div class="mesa ${cssClass}">
+                <p>Mesa #${mesa.numeroMesa}</p>
+                <p>Status: ${situacaoText}</p>
 
-            <button class="edit-btn" data-id="${mesa.id}">Editar Mesa</button>
-            <button class="delete-btn" data-id="${mesa.id}">Deletar Mesa</button>
-        </div>
-        `
-        );
-    });
-
-    // add listeners AFTER inserting HTML
-    document.querySelectorAll(".delete-btn").forEach(btn => {
-        btn.addEventListener("click", () => removeMesa(btn.dataset.id));
+                <button class="edit-btn" data-id="${mesa.id}">Editar Mesa</button>
+                <button class="delete-btn" data-id="${mesa.id}">Deletar Mesa</button>
+            </div>
+        `);
     });
 
     document.querySelectorAll(".edit-btn").forEach(btn => {
-        const mesa = mesas.find(x => x.id == btn.dataset.id);
-        btn.addEventListener("click", () => openEditModal(mesa));
+        const mesa = mesas.find(m => m.id == btn.dataset.id);
+        btn.onclick = () => openEditModal(mesa);
+    });
+
+    document.querySelectorAll(".delete-btn").forEach(btn => {
+        btn.onclick = () => removeMesa(btn.dataset.id);
     });
 }
 
 get();
 
+/* ========================= */
+/* POPUP - EDITAR */
+/* ========================= */
 function openEditModal(mesa) {
     closeModals();
-    console.log(mesa, "mesa to edit");
+
     document.body.insertAdjacentHTML("beforeend", `
         <div class="wrapper">
             <div class="modal">
                 <h3>Editar Mesa</h3>
-                <input type="number" value="${mesa.numeroMesa}" id="numeroMesa">
-                <input type="text" value="${mesa.situacaoMesa}" id="situacaoMesa">
+
+                <input type="number" id="numeroMesa" value="${mesa.numeroMesa}">
+                <input type="number" id="situacaoMesa" value="${mesa.situacaoMesa}">
 
                 <button id="saveEdit">Salvar</button>
                 <button id="closeModal">Cancelar</button>
@@ -67,15 +61,15 @@ function openEditModal(mesa) {
     document.getElementById("closeModal").onclick = closeModals;
 
     document.getElementById("saveEdit").onclick = async () => {
-        const objMesaUpdate = {
+        const update = {
             numeroMesa: Number(document.getElementById("numeroMesa").value),
-            situacaoMesa: document.getElementById("situacaoMesa")
+            situacaoMesa: Number(document.getElementById("situacaoMesa").value)
         };
 
         const response = await fetch(`${baseUrl}/api/Mesa/${mesa.id}`, {
             method: "PUT",
             headers,
-            body: JSON.stringify(objMesaUpdate)
+            body: JSON.stringify(update)
         });
 
         if (response.ok) {
@@ -85,102 +79,55 @@ function openEditModal(mesa) {
     };
 }
 
-// =========================
-// DELETE
-// =========================
+/* ========================= */
+/* DELETAR */
+/* ========================= */
 async function removeMesa(id) {
-    const response = await fetch(`${baseUrl}/api/Mesa/${id}`, {
-        method: "DELETE"
-    });
-
+    const response = await fetch(`${baseUrl}/api/Mesa/${id}`, { method: "DELETE" });
     if (response.ok) get();
 }
 
-// =========================
-// CRIAR COMANDA
-// =========================
-function openCreateModal() {
-    const button = document.querySelector("#criar");
-    console.log(button, "botao criar");
-    button.addEventListener("click", () => {
-        closeModals();
+/* ========================= */
+/* POPUP - CRIAR MESA */
+/* ========================= */
+document.getElementById("criar").addEventListener("click", () => {
+    closeModals();
 
-        document.body.insertAdjacentHTML("beforeend", `
-            <div class="wrapper">
-                <div class="modal">
-                    <h3>Criar Mesa</h3>
-                    <ul id="itens">
-                    </ul>
-                    <input type="number" placeholder="Número da mesa" id="numeroMesa">
-                    <input type="text" placeholder="Status da Mesa" id="situacaoMesa">
-                    
-                    
+    document.body.insertAdjacentHTML("beforeend", `
+        <div class="wrapper">
+            <div class="modal">
+                <h3>Criar Mesa</h3>
 
-                    <button id="createBtn">Salvar</button>
-                    <button id="closeModal">Cancelar</button>
-                </div>
+                <input type="number" id="newNumeroMesa" placeholder="Número da mesa">
+                <input type="number" id="newSituacaoMesa" placeholder="Status (0,1,2)">
+
+                <button id="createBtn">Salvar</button>
+                <button id="closeModal">Cancelar</button>
             </div>
-        `);
-        const createButton = document.getElementById("createBtn")
+        </div>
+    `);
 
-        createButton.addEventListener("click", async () => {
+    document.getElementById("closeModal").onclick = closeModals;
 
-            const mesa = {
+    document.getElementById("createBtn").onclick = async () => {
+        const mesa = {
+            numeroMesa: Number(document.getElementById("newNumeroMesa").value),
+            situacaoMesa: Number(document.getElementById("newSituacaoMesa").value)
+        };
 
-            }
-            const response = await fetch(`${baseUrl}/api/Mesa`,
-                {
-                    method: "POST",
-                    headers: headers,
-                    body: JSON.stringify(mesa)
-                })
+        const response = await fetch(`${baseUrl}/api/Mesa`, {
+            method: "POST",
+            headers,
+            body: JSON.stringify(mesa)
+        });
 
-            console.log(response, "response edit")
-            if (response.ok) {
+        if (response.ok) {
+            closeModals();
+            get();
+        }
+    };
+});
 
-                //location.reload()
-            }
-        })
-
-
-    });
-
-    //document.getElementById("closeModal").onclick = closeModals;
-
-    // document.getElementById("createBtn").onclick = async () => {
-    //     // const selectedItems = Array.from(document.querySelectorAll(".item-checkbox:checked")).map(cb => Number(cb.value));
-    //     const itensSelecionados = [];
-    //     const check = document.querySelectorAll(".item-checkbox");
-    //     check.forEach(item => {
-    //         if (item.checked) {
-    //             itensSelecionados.push(Number(item.value));
-    //         }
-    //     })
-    //     console.log(itensSelecionados, "itens selecionados");
-    //     const mesas = {
-    //         numeroMesa: Number(document.getElementById("numeroMesa").value),
-    //         nomeCliente: document.getElementById("nomeCliente").value,
-    //         cardapioItemIds: itensSelecionados
-    //     };
-
-    //     const response = await fetch(`${baseUrl}/api/Mesa`, {
-    //         method: "POST",
-    //         headers,
-    //         body: JSON.stringify(mesas)
-    //     });
-
-    //     if (response.ok) {
-    //         closeModals();
-    //         get();
-    //     };
-    // };
-}
 function closeModals() {
     document.querySelectorAll(".wrapper").forEach(w => w.remove());
 }
-openCreateModal()
-
-
-
-
-

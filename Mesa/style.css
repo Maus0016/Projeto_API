@@ -13,12 +13,12 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 140px; /* spacing for fixed back button */
+    padding-top: 140px;
     min-height: 100vh;
     text-align: center;
 }
 
-/* PAGE TITLE */
+/* TITLE */
 h1 {
     font-size: 5rem;
     margin-bottom: 60px;
@@ -47,7 +47,7 @@ h1 {
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
-/* BACK BUTTON (TOP LEFT, FLOATING) */
+/* BACK BUTTON FLOATING */
 .back-btn {
     position: fixed;
     top: 30px;
@@ -66,30 +66,29 @@ h1 {
 .back-btn:hover {
     background: white;
     color: #6a11cb;
-    transform: translateY(-4px);
 }
 
-/* AUTO-RESIZING GRID */
+/* GRID */
 .container {
     width: 100%;
     max-width: 2000px;
-
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
     gap: 40px;
     padding: 0 40px;
 }
 
-/* MESA CARD (IDENTICAL TO COMANDA STYLE) */
+/* MESA CARD */
 .mesa {
     background: rgba(255, 255, 255, 0.15);
-    padding: 40px 60px;
+    padding: 40px;
     border-radius: 32px;
     backdrop-filter: blur(20px);
     box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
-    width: 100%;
     text-align: center;
-    transition: all 0.3s ease;
+    transition: 0.3s;
+    display: flex;
+    flex-direction: column;
 }
 
 .mesa:hover {
@@ -97,84 +96,99 @@ h1 {
     background: rgba(255, 255, 255, 0.25);
 }
 
-/* CARD TEXT */
 .mesa p {
     font-size: 2.2rem;
     margin-bottom: 20px;
-    color: white;
 }
 
 /* STATUS COLORS */
-.disponivel p:nth-child(2) {
-    color: #00ff88;
-}
-.ocupada p:nth-child(2) {
-    color: #ffcc00;
-}
-.reservada p:nth-child(2) {
-    color: #00e5ff;
-}
+.disponivel p:nth-child(2) { color: #00ff88; }
+.ocupada p:nth-child(2) { color: #ffcc00; }
+.reservada p:nth-child(2) { color: #00e5ff; }
 
-/* BUTTONS INSIDE CARD */
+/* CARD BUTTONS */
 .mesa button {
+    width: 100%;
+    margin-top: 12px;
+    padding: 18px;
+    border-radius: 20px;
+    border: none;
+    font-size: 1.8rem;
+    font-weight: 600;
     background: white;
     color: #6a11cb;
-    border: none;
-    padding: 20px 40px;
-    border-radius: 20px;
-    font-weight: 600;
-    font-size: 2rem;
     cursor: pointer;
-    transition: 0.3s ease;
+    transition: .3s;
 }
 
 .mesa button:hover {
     background: #6a11cb;
     color: white;
     transform: translateY(-4px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
-/* MOBILE */
-@media (max-width: 600px) {
-    h1 {
-        font-size: 4rem;
-    }
+/* ===================================== */
+/* ============ GLASS POPUP ============ */
+/* ===================================== */
 
-    .container {
-        grid-template-columns: 1fr;
-        gap: 30px;
-    }
-
-    #criar {
-        font-size: 1.6rem;
-        padding: 16px 30px;
-    }
-}
-
-/* ========================================================= */
-/* ===============  DATABASE LAYOUT FIXES (ADDED) ========== */
-/* ========================================================= */
-
-/* Prevent long names/values from breaking the card */
-.mesa p {
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    line-height: 1.3;
-}
-
-/* Keep spacing clean inside mesa card */
-.mesa {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 10px;
-}
-
-/* Make all buttons inside card line up 100% width */
-.mesa button {
+.wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    margin-top: 12px;
-    padding: 18px 30px;
-    font-size: 1.8rem;
+    height: 100%;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn .2s ease;
+    z-index: 9999;
 }
+
+.modal {
+    background: rgba(255,255,255,0.18);
+    backdrop-filter: blur(25px);
+    padding: 40px;
+    width: 90%;
+    max-width: 480px;
+    border-radius: 28px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    animation: popIn .25s ease;
+}
+
+.modal h3 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.modal input {
+    width: 100%;
+    padding: 16px;
+    margin-bottom: 16px;
+    border-radius: 16px;
+    border: none;
+    font-size: 1.6rem;
+}
+
+.modal button {
+    width: 100%;
+    padding: 18px;
+    border-radius: 16px;
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-top: 10px;
+    border: none;
+    background: white;
+    color: #6a11cb;
+    transition: .3s;
+}
+
+.modal button:hover {
+    background: #6a11cb;
+    color: white;
+}
+
+/* ANIMATIONS */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes popIn { from { transform: scale(.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
