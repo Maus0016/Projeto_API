@@ -126,3 +126,74 @@ button:hover {
     font-size: 4rem;
   }
 }
+
+/* ========================================================= */
+/* ===================== GLASS POPUP ======================= */
+/* ========================================================= */
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.hidden {
+  display: none;
+}
+
+.popup-box {
+  width: 360px;
+  padding: 25px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.popup-box h2 {
+  margin-bottom: 15px;
+  color: white;
+  text-align: center;
+}
+
+.popup-box label {
+  color: white;
+  font-weight: bold;
+}
+
+.popup-box input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0 16px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+}
+
+.btn-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-row button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 12px;
+  background: #ffffffaa;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-row button:hover {
+  background: white;
+}

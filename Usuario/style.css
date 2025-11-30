@@ -56,9 +56,11 @@ h1 {
 .container {
     width: 100%;
     max-width: 2200px;
+
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
     gap: 50px;
+    justify-items: center;
 }
 
 /* Usuario card */
@@ -76,6 +78,7 @@ h1 {
 
 .usuario:hover {
     transform: translateY(-12px);
+    background: rgba(255, 255, 255, 0.25);
 }
 
 .usuario img {
@@ -114,6 +117,8 @@ h1 {
 button {
     background: white;
     color: #3a7bd5;
+    border: none;
+    padding: 20px 40px;
     border-radius: 20px;
     font-weight: 600;
     font-size: 2rem;
@@ -126,6 +131,7 @@ button:hover {
     background: #3a7bd5;
     color: white;
     transform: translateY(-4px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
 /* Responsive */
