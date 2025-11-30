@@ -14,8 +14,9 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    min-height: 100vh;
     text-align: center;
+    padding: 20px;
 }
 
 /* ===== PAGE TITLE ===== */
@@ -37,8 +38,8 @@ h1 {
     justify-items: center;
 }
 
-/* ===== RESERVA CARDS ===== */
-.reserva {
+/* ===== CARDAPIO ITEM CARDS ===== */
+.cardapioitem {
     background: rgba(255, 255, 255, 0.15);
     padding: 40px 60px;
     border-radius: 32px;
@@ -49,32 +50,56 @@ h1 {
     transition: all 0.3s ease;
 }
 
-.reserva:hover {
+.cardapioitem:hover {
     transform: translateY(-10px);
     background: rgba(255, 255, 255, 0.25);
 }
 
-/* ===== RESERVA INFO ===== */
-.reserva p {
+/* ===== INFO CONTAINERS FOR EACH DATABASE FIELD ===== */
+.info-container {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px 25px;
+    border-radius: 20px;
     margin-bottom: 20px;
-    font-size: 2.2rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    text-align: left;
+}
+
+.info-container strong {
+    display: block;
+    font-size: 2rem;
+    margin-bottom: 8px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.info-container p {
+    font-size: 1.8rem;
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* ===== BUTTON CONTAINER ===== */
+.button-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 30px;
+    flex-wrap: wrap;
 }
 
 /* ===== BUTTONS ===== */
-button:disabled {
-    background-color: #6d6a6a;
-}
-
 button {
     background: white;
     color: #6a11cb;
     border: none;
-    padding: 20px 40px;
+    padding: 18px 35px;
     border-radius: 20px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-size: 2rem;
+    font-size: 1.8rem;
+    min-width: 140px;
 }
 
 button:hover:not(:disabled) {
@@ -84,7 +109,85 @@ button:hover:not(:disabled) {
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
 
-/* ===== FIXED BACK BUTTON (TOP-LEFT) ===== */
+button:disabled {
+    background-color: #6d6a6a;
+}
+
+/* ===== MODAL WRAPPER ===== */
+.wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    backdrop-filter: blur(10px);
+}
+
+/* ===== EDIT FORM CONTAINER ===== */
+.modal {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 50px;
+    border-radius: 28px;
+    backdrop-filter: blur(25px);
+    box-shadow: 0 10px 45px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    width: 90%;
+    max-width: 600px;
+}
+
+/* ===== FORM INPUT CONTAINERS ===== */
+.input-container {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 25px 30px;
+    border-radius: 20px;
+    margin-bottom: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: left;
+}
+
+.input-container label {
+    display: block;
+    font-size: 1.8rem;
+    margin-bottom: 12px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.input-container input {
+    width: 100%;
+    padding: 18px 20px;
+    border-radius: 14px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 1.8rem;
+    font-family: 'Poppins', sans-serif;
+    backdrop-filter: blur(10px);
+}
+
+.input-container input:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.input-container input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Checkbox container specific styling */
+.input-container input[type="checkbox"] {
+    width: auto;
+    margin-right: 10px;
+    transform: scale(1.3);
+}
+
+/* ===== FIXED BACK BUTTON ===== */
 .back-btn {
     position: fixed;
     top: 20px;
@@ -107,7 +210,7 @@ button:hover:not(:disabled) {
     transform: translateY(-4px);
 }
 
-/* ===== FIXED CREATE BUTTON (BOTTOM-RIGHT) ===== */
+/* ===== FIXED CREATE BUTTON ===== */
 .create-btn {
     position: fixed;
     bottom: 20px;
@@ -137,9 +240,37 @@ button:hover:not(:disabled) {
     .container {
         grid-template-columns: 1fr;
         gap: 30px;
+        padding: 0 20px;
     }
 
     h1 {
         font-size: 4rem;
+        margin-bottom: 40px;
+    }
+
+    .cardapioitem {
+        padding: 30px;
+    }
+
+    .info-container {
+        padding: 15px 20px;
+    }
+
+    .modal {
+        padding: 30px 25px;
+    }
+
+    .input-container {
+        padding: 20px 25px;
+    }
+
+    .button-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .button-container button {
+        width: 100%;
+        max-width: 250px;
     }
 }

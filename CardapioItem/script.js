@@ -16,13 +16,27 @@ async function get() {
 
         container.insertAdjacentHTML("beforeend", `
             <div class="cardapioitem">
-                <p><strong>${item.titulo}</strong></p>
-                <p>${item.descricao}</p>
-                <p>Preço: R$ ${Number(item.preco).toFixed(2)}</p>
-                <p>Possui Preparo: ${preparo}</p>
+                <div class="info-container">
+                    <strong>Título</strong>
+                    <p>${item.titulo}</p>
+                </div>
+                <div class="info-container">
+                    <strong>Descrição</strong>
+                    <p>${item.descricao}</p>
+                </div>
+                <div class="info-container">
+                    <strong>Preço</strong>
+                    <p>R$ ${Number(item.preco).toFixed(2)}</p>
+                </div>
+                <div class="info-container">
+                    <strong>Possui Preparo</strong>
+                    <p>${preparo}</p>
+                </div>
 
-                <button id="${item.id}_delete">Excluir</button>
-                <button id="${item.id}_edit">Editar</button>
+                <div class="button-container">
+                    <button id="${item.id}_delete">Excluir</button>
+                    <button id="${item.id}_edit">Editar</button>
+                </div>
             </div>
         `);
 
@@ -41,16 +55,29 @@ function openEditModal(item) {
     document.body.insertAdjacentHTML("beforeend", `
         <div class="wrapper">
             <div class="modal">
-                <input type="text" value="${item.titulo}" id="titulo"/>
-                <input type="text" value="${item.descricao}" id="descricao"/>
-                <input type="number" step="0.01" value="${item.preco}" id="preco"/>
+                <div class="input-container">
+                    <label for="titulo">Título</label>
+                    <input type="text" value="${item.titulo}" id="titulo"/>
+                </div>
+                <div class="input-container">
+                    <label for="descricao">Descrição</label>
+                    <input type="text" value="${item.descricao}" id="descricao"/>
+                </div>
+                <div class="input-container">
+                    <label for="preco">Preço</label>
+                    <input type="number" step="0.01" value="${item.preco}" id="preco"/>
+                </div>
+                <div class="input-container">
+                    <label>
+                        <input type="checkbox" id="edit_preparo" ${item.possuiPreparo ? "checked" : ""}/>
+                        Possui Preparo
+                    </label>
+                </div>
 
-                <label>
-                    Possui Preparo:
-                    <input type="checkbox" id="edit_preparo" ${item.possuiPreparo ? "checked" : ""}/>
-                </label>
-
-                <button id="update">Salvar</button>
+                <div class="button-container">
+                    <button id="update">Salvar</button>
+                    <button id="cancelEdit">Cancelar</button>
+                </div>
             </div>
         </div>
     `);
@@ -73,6 +100,11 @@ function openEditModal(item) {
             location.reload();
         }
     });
+
+    // Cancel button functionality for edit modal
+    document.getElementById("cancelEdit").addEventListener("click", () => {
+        document.querySelector('.wrapper').remove();
+    });
 }
 
 // ==================== DELETE ====================
@@ -94,16 +126,29 @@ function openCreateModal() {
         document.body.insertAdjacentHTML("beforeend", `
             <div class="wrapper">
                 <div class="modal">
-                    <input type="text" id="titulo" placeholder="Título"/>
-                    <input type="text" id="descricao" placeholder="Descrição"/>
-                    <input type="number" step="0.01" id="preco" placeholder="Preço"/>
+                    <div class="input-container">
+                        <label for="titulo">Título</label>
+                        <input type="text" id="titulo" placeholder="Título"/>
+                    </div>
+                    <div class="input-container">
+                        <label for="descricao">Descrição</label>
+                        <input type="text" id="descricao" placeholder="Descrição"/>
+                    </div>
+                    <div class="input-container">
+                        <label for="preco">Preço</label>
+                        <input type="number" step="0.01" id="preco" placeholder="Preço"/>
+                    </div>
+                    <div class="input-container">
+                        <label>
+                            <input type="checkbox" id="possuiPreparo"/>
+                            Possui Preparo
+                        </label>
+                    </div>
 
-                    <label>
-                        Possui Preparo:
-                        <input type="checkbox" id="possuiPreparo"/>
-                    </label>
-
-                    <button id="create">Salvar</button>
+                    <div class="button-container">
+                        <button id="create">Salvar</button>
+                        <button id="cancelCreate">Cancelar</button>
+                    </div>
                 </div>
             </div>
         `);
@@ -125,6 +170,11 @@ function openCreateModal() {
             if (response.ok) {
                 location.reload();
             }
+        });
+
+        // Cancel button functionality for create modal
+        document.getElementById("cancelCreate").addEventListener("click", () => {
+            document.querySelector('.wrapper').remove();
         });
     });
 }
