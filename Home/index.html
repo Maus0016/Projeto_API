@@ -1,28 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home</title>
-
-  <!-- ✅ Link to CSS -->
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 </head>
 <body>
-  <!-- Main Page Title -->
-  <p>Home</p>
+    <!-- Side Images -->
+   <div class="side-image left-side">
+    <div class="image-container">
+        <img src="https://images.unsplash.com/photo-1572802419224-296b0aeee0d9?w=400&h=400&fit=crop" 
+             alt="Brazilian XIS Burger" 
+             class="burger-holder"
+             style="object-fit: cover; border-radius: 10px;">
+        <div class="image-label">Kitchen Orders: <span id="kitchen-orders">0</span></div>
+    </div>
+</div>
+    
+<div class="side-image right-side">
+    <div class="image-container">
+        <img src="https://plus.unsplash.com/premium_vector-1739629444508-dec6724811cd?w=400&h=400&fit=crop&auto=format"
+         alt="Cartoon waiter serving food">
+        <div class="image-label">Active Staff: <span id="active-waiters">0</span></div>
+    </div>
+</div>
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header-section">
+            <h1 class="page-title">🍽️ Restaurant Dashboard</h1>
+            <div class="live-badge">
+                <i class="fas fa-circle"></i> LIVE DATA
+                <div class="last-update">Updated: <span id="last-update-time">Just now</span></div>
+            </div>
+        </div>
+        
+        <!-- Navigation Menu -->
+        <nav class="main-nav">
+            <a href="../Mesa/" class="nav-item">
+                <i class="fas fa-chair"></i>
+                <span>Mesas</span>
+                <span class="nav-count" id="mesas-count">0</span>
+            </a>
+            <a href="../CardapioItem/" class="nav-item">
+                <i class="fas fa-utensils"></i>
+                <span>Cardápio</span>
+                <span class="nav-count" id="menu-items-count">0</span>
+            </a>
+            <a href="../Comanda/" class="nav-item">
+                <i class="fas fa-receipt"></i>
+                <span>Comandas</span>
+                <span class="nav-count" id="active-bills">0</span>
+            </a>
+            <a href="../Usuario/" class="nav-item">
+                <i class="fas fa-users"></i>
+                <span>Usuários</span>
+                <span class="nav-count" id="users-count">0</span>
+            </a>
+            <a href="../PedidoCozinha/" class="nav-item">
+                <i class="fas fa-concierge-bell"></i>
+                <span>Cozinha</span>
+                <span class="nav-count" id="kitchen-queue">0</span>
+            </a>
+            <a href="../Reservas/" class="nav-item">
+                <i class="fas fa-calendar-check"></i>
+                <span>Reservas</span>
+                <span class="nav-count" id="today-reservations">0</span>
+            </a>
+        </nav>
+        
+        <!-- Real-time Stats -->
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <i class="fas fa-clock"></i>
+                    <h3>Orders Today</h3>
+                </div>
+                <p class="stat-number" id="orders-today">0</p>
+                <div class="stat-trend" id="orders-trend">
+                    <i class="fas fa-arrow-up"></i> 0%
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-header">
+                    <i class="fas fa-chair"></i>
+                    <h3>Occupied Tables</h3>
+                </div>
+                <p class="stat-number" id="occupied-tables">0/0</p>
+                <div class="occupancy-bar">
+                    <div class="occupancy-fill" id="occupancy-level" style="width: 0%"></div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-header">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <h3>Today's Revenue</h3>
+                </div>
+                <p class="stat-number" id="today-revenue">R$ 0</p>
+                <div class="revenue-breakdown">
+                    <div class="breakdown-item">
+                        <span>Avg Order:</span>
+                        <span id="avg-order-value">R$ 0</span>
+                    </div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-header">
+                    <i class="fas fa-user-clock"></i>
+                    <h3>Wait Time</h3>
+                </div>
+                <p class="stat-number" id="avg-wait-time">0min</p>
+                <div class="wait-time-info">
+                    <span>Longest: <span id="longest-wait">0min</span></span>
+                </div>
+            </div>
+        </div>
 
-  <!-- Navigation Menu -->
-  <nav>
-    <a href="../Mesa/">Mesas</a>
-    <a href="../CardapioItem/">CardapioItem</a>
-    <a href="../Comanda/">Comandas</a>
-    <a href="../Usuario/">Usuario</a>
-    <a href="../PedidoCozinha/">PedidoCozinha</a>
-    <a href="../Reservas/">Reservas</a>
-  </nav>
+        <!-- Recent Activity -->
+        <div class="activity-section">
+            <h2><i class="fas fa-history"></i> Recent Activity</h2>
+            <div class="activity-list" id="recent-activity">
+                <div class="activity-item loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <span>Loading live data...</span>
+                </div>
+            </div>
+        </div>
 
-  <!-- ✅ Script for page transitions -->
-  <script src="script.js"></script>
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <button class="action-btn" id="refresh-btn">
+                <i class="fas fa-sync-alt"></i> Refresh Data
+            </button>
+            <button class="action-btn" id="new-order-btn">
+                <i class="fas fa-plus"></i> New Order
+            </button>
+            <button class="action-btn" id="view-reports-btn">
+                <i class="fas fa-chart-bar"></i> View Reports
+            </button>
+        </div>
+        
+        <!-- Connection Status -->
+        <div id="connection-status" style="margin-top: 20px; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 10px; text-align: center;">
+            <i class="fas fa-plug"></i> 
+            <span id="api-status-text">Connecting...</span>
+        </div>
+    </div>
+
+    <!-- Notification Badge -->
+    <div class="notification-badge" id="notification-badge">
+        <i class="fas fa-bell"></i>
+        <span class="notification-count" id="notification-count">0</span>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
