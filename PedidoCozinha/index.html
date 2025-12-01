@@ -1,42 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pedidos da Cozinha</title>
   <link rel="stylesheet" href="./style.css">
 </head>
-
 <body>
-
   <!-- Back Button -->
   <a href="../Home/" class="back-btn">← Voltar</a>
-
   <h1>Pedidos da Cozinha</h1>
-
+  
   <!-- EMPTY container where JS will insert all database cards -->
   <div class="container" id="pedido-container"></div>
-  <!-- ====== GLASS POPUP MODAL ====== -->
-<div id="popup-overlay" class="popup-overlay hidden">
-  <div class="popup-box">
-    <h2>Editar Pedido</h2>
-
-    <label>Nome:</label>
-    <input type="text" id="edit-nome">
-
-    <label>Quantidade:</label>
-    <input type="number" id="edit-qtd">
-
-    <div class="btn-row">
-      <button id="save-btn">Salvar</button>
-      <button id="cancel-btn">Cancelar</button>
-    </div>
-  </div>
-</div>
-
 
   <script src="./script.js"></script>
 </body>
-
 </html>

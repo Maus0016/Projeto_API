@@ -1,9 +1,7 @@
 const baseUrl = "http://localhost:5042";
 const headers = { "Content-Type": "application/json" };
 
-// ------------------------------
-// LOAD ALL PEDIDOS DA COZINHA
-// ------------------------------
+// ==================== GET PEDIDOS COZINHA ====================
 async function get() {
     const res = await fetch(`${baseUrl}/api/PedidoCozinha`, { headers });
     const pedidos = await res.json();
@@ -12,102 +10,176 @@ async function get() {
     container.innerHTML = ""; 
 
     pedidos.forEach(pedido => {
-        let statusClass = "pendente";
-        if (pedido.status === "Preparo") statusClass = "preparo";
-        if (pedido.status === "Pronto") statusClass = "pronto";
+        let statusClass = "status-pendente";
+        if (pedido.status === "Preparo") statusClass = "status-preparo";
+        if (pedido.status === "Pronto") statusClass = "status-pronto";
 
         container.insertAdjacentHTML("beforeend", `
-            <div class="pedido ${statusClass}">
-                <h2>Pedido #${pedido.id}</h2>
-                <p>Comanda: ${pedido.comandaId}</p>
-                <p>Itens: ${pedido.itens ?? "Nenhum item informado"}</p>
-                <p class="status">Status: ${pedido.status}</p>
+            <div class="pedido">
+                <div class="info-container">
+                    <strong>Número do Pedido</strong>
+                    <p>#${pedido.id}</p>
+                </div>
+                <div class="info-container">
+                    <strong>ID da Comanda</strong>
+                    <p>${pedido.comandaId}</p>
+                </div>
+                <div class="info-container">
+                    <strong>Itens do Pedido</strong>
+                    <p>${pedido.itens ?? "Nenhum item informado"}</p>
+                </div>
+                <div class="status-container">
+                    <strong>Status</strong>
+                    <p class="${statusClass}">${pedido.status}</p>
+                </div>
 
-                <button id="${pedido.id}_edit">Editar Pedido</button>
-                <button id="${pedido.id}_delete">Excluir</button>
+                <div class="button-container">
+                    <button class="edit-btn" data-id="${pedido.id}">Editar</button>
+                    <button class="delete-btn" data-id="${pedido.id}">Excluir</button>
+                </div>
             </div>
         `);
+    });
 
-        document.getElementById(`${pedido.id}_delete`)
-            .addEventListener("click", () => removePedidoCozinha(pedido.id));
+    // Attach event listeners AFTER creating all elements
+    attachEventListeners(pedidos);
+}
 
-        document.getElementById(`${pedido.id}_edit`)
-            .addEventListener("click", () => openEditModal(pedido));
+// ==================== ATTACH EVENT LISTENERS ====================
+function attachEventListeners(pedidos) {
+    // Edit buttons
+    document.querySelectorAll(".edit-btn").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            const id = e.target.getAttribute("data-id");
+            const selected = pedidos.find(p => p.id == id);
+            if (selected) {
+                openEditModal(selected);
+            }
+        });
+    });
+
+    // Delete buttons
+    document.querySelectorAll(".delete-btn").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            const id = e.target.getAttribute("data-id");
+            if (id) {
+                removePedidoCozinha(id);
+            }
+        });
     });
 }
 
 get();
 
-// =======================================================
-// EDIT POPUP (GLASS POPUP)
-// =======================================================
+// ==================== EDIT MODAL ====================
 let editingPedido = null;
 
 function openEditModal(pedido) {
     editingPedido = pedido;
 
-    document.getElementById("edit-nome").value = pedido.itens ?? "";
-    document.getElementById("edit-qtd").value = pedido.comandaId;
+    // Create modal if it doesn't exist
+    if (!document.getElementById("popup-overlay")) {
+        createModal();
+    }
 
+    // Populate form with current data
+    document.getElementById("edit-comandaId").value = pedido.comandaId;
+    document.getElementById("edit-itens").value = pedido.itens ?? "";
+    document.getElementById("edit-status").value = pedido.status;
+    document.getElementById("modal-title").textContent = "Editar Pedido";
+
+    // Show modal
     document.getElementById("popup-overlay").classList.remove("hidden");
 }
 
-// close popup
-document.getElementById("cancel-btn").addEventListener("click", () => {
-    document.getElementById("popup-overlay").classList.add("hidden");
-});
-
-// save edit
-document.getElementById("save-btn").addEventListener("click", async () => {
-    const update = {
-        comandaId: Number(document.getElementById("edit-qtd").value),
-        itens: document.getElementById("edit-nome").value,
-        status: editingPedido.status
-    };
-
-    const response = await fetch(`${baseUrl}/api/PedidoCozinha/${editingPedido.id}`, {
-        method: "PUT",
-        headers,
-        body: JSON.stringify(update)
-    });
-
-    if (response.ok) {
-        document.getElementById("popup-overlay").classList.add("hidden");
-        get();
+// ==================== CREATE MODAL ====================
+function createModal() {
+    // Remove existing modal if any
+    const existingModal = document.getElementById("popup-overlay");
+    if (existingModal) {
+        existingModal.remove();
     }
-});
 
-// ------------------------------
-// DELETE PEDIDO
-// ------------------------------
-async function removePedidoCozinha(id) {
-    await fetch(`${baseUrl}/api/PedidoCozinha/${id}`, {
-        method: "DELETE"
+    const modalHTML = `
+        <div class="popup-overlay hidden" id="popup-overlay">
+            <div class="popup-box">
+                <h2 id="modal-title">Editar Pedido</h2>
+
+                <div class="input-container">
+                    <label for="edit-comandaId">ID da Comanda</label>
+                    <input type="number" id="edit-comandaId" placeholder="Digite o ID da comanda" min="1">
+                </div>
+
+                <div class="input-container">
+                    <label for="edit-itens">Itens do Pedido</label>
+                    <input type="text" id="edit-itens" placeholder="Digite os itens do pedido">
+                </div>
+
+                <div class="input-container">
+                    <label for="edit-status">Status do Pedido</label>
+                    <select id="edit-status">
+                        <option value="Pendente">Pendente</option>
+                        <option value="Preparo">Em Preparo</option>
+                        <option value="Pronto">Pronto</option>
+                    </select>
+                </div>
+
+                <div class="modal-buttons">
+                    <button id="save-btn">Salvar</button>
+                    <button id="cancel-btn" class="cancel">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.body.insertAdjacentHTML("beforeend", modalHTML);
+
+    // Add event listeners
+    document.getElementById("cancel-btn").addEventListener("click", () => {
+        document.getElementById("popup-overlay").classList.add("hidden");
     });
 
-    get();
+    document.getElementById("save-btn").addEventListener("click", handleSave);
 }
 
-// =======================================================
-// CREATE NEW PEDIDO (USING SAME GLASS POPUP SYSTEM)
-// =======================================================
-function openCreateModal() {
-    document.getElementById("criar").addEventListener("click", () => {
-        
-        editingPedido = null;
+// ==================== HANDLE SAVE ====================
+async function handleSave() {
+    const comandaId = Number(document.getElementById("edit-comandaId").value);
+    const itens = document.getElementById("edit-itens").value;
+    const status = document.getElementById("edit-status").value;
 
-        // clear popup inputs for create mode
-        document.getElementById("edit-nome").value = "";
-        document.getElementById("edit-qtd").value = "";
+    if (!comandaId) {
+        alert("Por favor, insira um ID da comanda válido!");
+        return;
+    }
 
-        document.getElementById("popup-overlay").classList.remove("hidden");
+    try {
+        if (editingPedido) {
+            // Update existing pedido
+            const update = {
+                comandaId: comandaId,
+                itens: itens,
+                status: status
+            };
 
-        // override save button behavior temporarily
-        document.getElementById("save-btn").onclick = async () => {
+            const response = await fetch(`${baseUrl}/api/PedidoCozinha/${editingPedido.id}`, {
+                method: "PUT",
+                headers,
+                body: JSON.stringify(update)
+            });
+
+            if (response.ok) {
+                document.getElementById("popup-overlay").classList.add("hidden");
+                get();
+            } else {
+                alert("Erro ao atualizar pedido!");
+            }
+        } else {
+            // Create new pedido
             const novoPedido = {
-                comandaId: Number(document.getElementById("edit-qtd").value),
-                itens: document.getElementById("edit-nome").value,
-                status: "Pendente"
+                comandaId: comandaId,
+                itens: itens,
+                status: status
             };
 
             const response = await fetch(`${baseUrl}/api/PedidoCozinha`, {
@@ -119,10 +191,70 @@ function openCreateModal() {
             if (response.ok) {
                 document.getElementById("popup-overlay").classList.add("hidden");
                 get();
+            } else {
+                alert("Erro ao criar pedido!");
             }
-        };
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        alert("Erro de conexão!");
+    }
+}
+
+// ==================== DELETE PEDIDO ====================
+async function removePedidoCozinha(id) {
+    if (confirm("Tem certeza que deseja excluir este pedido?")) {
+        try {
+            const response = await fetch(`${baseUrl}/api/PedidoCozinha/${id}`, {
+                method: "DELETE"
+            });
+
+            if (response.ok) {
+                get();
+            } else {
+                alert("Erro ao excluir pedido!");
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            alert("Erro de conexão!");
+        }
+    }
+}
+
+// ==================== CREATE NEW PEDIDO ====================
+function initCreateButton() {
+    // Create button if it doesn't exist in HTML
+    let createButton = document.getElementById("criar");
+    if (!createButton) {
+        createButton = document.createElement("button");
+        createButton.id = "criar";
+        createButton.textContent = "Criar Pedido";
+        document.querySelector("h1").insertAdjacentElement("afterend", createButton);
+    }
+
+    // Remove existing event listeners and add new one
+    createButton.replaceWith(createButton.cloneNode(true));
+    document.getElementById("criar").addEventListener("click", () => {
+        editingPedido = null;
+
+        // Create modal if it doesn't exist
+        if (!document.getElementById("popup-overlay")) {
+            createModal();
+        }
+
+        // Clear form and set default values
+        document.getElementById("modal-title").textContent = "Criar Pedido";
+        document.getElementById("edit-comandaId").value = "";
+        document.getElementById("edit-itens").value = "";
+        document.getElementById("edit-status").value = "Pendente";
+
+        // Show modal
+        document.getElementById("popup-overlay").classList.remove("hidden");
     });
 }
 
-openCreateModal();
-        
+// Initialize everything when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    initCreateButton();
+    get();
+});
