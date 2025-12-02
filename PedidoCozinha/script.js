@@ -69,8 +69,6 @@ function attachEventListeners(pedidos) {
     });
 }
 
-get();
-
 // ==================== EDIT MODAL ====================
 let editingPedido = null;
 
@@ -221,40 +219,8 @@ async function removePedidoCozinha(id) {
     }
 }
 
-// ==================== CREATE NEW PEDIDO ====================
-function initCreateButton() {
-    // Create button if it doesn't exist in HTML
-    let createButton = document.getElementById("criar");
-    if (!createButton) {
-        createButton = document.createElement("button");
-        createButton.id = "criar";
-        createButton.textContent = "Criar Pedido";
-        document.querySelector("h1").insertAdjacentElement("afterend", createButton);
-    }
-
-    // Remove existing event listeners and add new one
-    createButton.replaceWith(createButton.cloneNode(true));
-    document.getElementById("criar").addEventListener("click", () => {
-        editingPedido = null;
-
-        // Create modal if it doesn't exist
-        if (!document.getElementById("popup-overlay")) {
-            createModal();
-        }
-
-        // Clear form and set default values
-        document.getElementById("modal-title").textContent = "Criar Pedido";
-        document.getElementById("edit-comandaId").value = "";
-        document.getElementById("edit-itens").value = "";
-        document.getElementById("edit-status").value = "Pendente";
-
-        // Show modal
-        document.getElementById("popup-overlay").classList.remove("hidden");
-    });
-}
-
-// Initialize everything when page loads
+// ==================== INITIALIZE ====================
+// Remove initCreateButton() call since kitchen doesn't need create button
 document.addEventListener('DOMContentLoaded', function() {
-    initCreateButton();
-    get();
+    get(); // Only load orders, don't create button
 });

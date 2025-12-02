@@ -213,7 +213,7 @@ button:disabled {
 /* ===== FIXED CREATE BUTTON ===== */
 .create-btn {
     position: fixed;
-    bottom: 20px;
+    top: 20px;
     right: 20px;
     background: rgba(255, 255, 255, 0.18);
     padding: 20px 40px;
