@@ -1,85 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Comandas</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 </head>
-
 <body>
+    <!-- Back button with home page style -->
+    <a href="../Home/" class="back-btn">
+        <i class="fas fa-arrow-left"></i> Voltar ao Dashboard
+    </a>
 
-    <!-- BACK BUTTON (top-left, controlled by CSS) -->
-    <a href="../Home/" class="back-btn">← Voltar</a>
+    <!-- Create button with home page style -->
+    <button id="criar">
+        <i class="fas fa-plus"></i> Nova Comanda
+    </button>
 
-    <h1>Comandas</h1>
+    <!-- Page title with home page gradient -->
+    <h1><i class="fas fa-receipt"></i> Comandas</h1>
 
-    <button id="criar">Criar</button>
-
-    <div class="container">
-        <div class="comanda">
-            <p>Comanda #101</p>
-            <p>Mesa: 01</p>
-            <p>Status: Aberta</p>
-            <button>Fechar Comanda</button>
-            <button>Ver Detalhes</button>
-            <button>Editar</button>
+    <!-- Dynamic comandas container -->
+    <div class="container" id="comandas-container">
+        <!-- Comandas will be loaded dynamically by JavaScript -->
+        <div class="loading-message" style="text-align: center; padding: 40px; grid-column: 1 / -1;">
+            <i class="fas fa-spinner fa-spin fa-2x"></i>
+            <p style="margin-top: 15px; font-size: 1.2rem; opacity: 0.8;">Carregando comandas...</p>
         </div>
     </div>
 
-    <!-- ========================================================= -->
-    <!-- ===================== NEW MODAL HERE ==================== -->
-    <!-- ========================================================= -->
-
-    <div class="wrapper" id="modal-wrapper" style="display: none;">
-        <div class="modal">
-
-            <h2>Criar Comanda</h2>
-
-            <form id="modal-form">
-
-                <div class="form-group">
-                    <label for="mesa">Número da mesa</label>
-                    <input type="text" id="mesa">
-                </div>
-
-                <div class="form-group">
-                    <label for="cliente">Nome do cliente</label>
-                    <input type="text" id="cliente">
-                </div>
-
-                <!-- ======================= CHECKLIST ======================= -->
-                <div class="form-group">
-                    <label>Itens do Pedido</label>
-
-                    <div class="checklist">
-                        <label><input type="checkbox" value="Refrigerante Lata"> Refrigerante Lata</label>
-                        <label><input type="checkbox" value="Pizza Média"> Pizza média</label>
-                        <label><input type="checkbox" value="Hamburger"> Hamburger</label>
-                        <label><input type="checkbox" value="Água com gás"> Água com gás</label>
-                        <label><input type="checkbox" value="Xis Tudo"> Xis tudo</label>
-                        <label><input type="checkbox" value="Xis Bacon"> Xis bacon</label>
-                        <label><input type="checkbox" value="Batata frita"> Batata frita</label>
-                        <label><input type="checkbox" value="Cerveja"> Cerveja</label>
-                    </div>
-                </div>
-                <!-- ======================================================== -->
-
-            </form>
-
-            <div class="modal-buttons">
-                <button class="btn cancel" id="btn-cancelar">Cancelar</button>
-                <button class="btn save" id="btn-salvar">Salvar</button>
-            </div>
-
-        </div>
+    <!-- Notification badge (like home page) -->
+    <div class="notification-badge" id="notification-badge" style="display: none;">
+        <i class="fas fa-bell"></i>
+        <span class="notification-count" id="notification-count">0</span>
     </div>
 
-    <!-- ========================================================= -->
-
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="./script.js"></script>
-
 </body>
-
 </html>

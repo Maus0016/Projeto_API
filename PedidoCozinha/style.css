@@ -1,192 +1,246 @@
-/* ===== RESET ===== */
+/* ===== HOME PAGE AESTHETIC - APPLIED TO PEDIDO COZINHA ===== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* ===== BODY SETUP ===== */
+/* ===== BODY WITH HOME PAGE GRADIENT ===== */
 body {
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #ff3b3b, #ff8a00);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
     color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
     min-height: 100vh;
-    padding: 120px 20px 60px;
-    text-align: center;
+    overflow-x: hidden;
+    position: relative;
+    opacity: 0;
+    transition: opacity 0.6s;
 }
 
-/* ===== PAGE TITLE ===== */
+body.loaded {
+    opacity: 1;
+}
+
+/* ===== PAGE TITLE WITH HOME PAGE STYLE ===== */
 h1 {
-    font-size: 5rem;
-    font-weight: 600;
-    margin-bottom: 60px;
+    font-size: 2.8rem;
+    background: linear-gradient(to right, #ff7e5f, #feb47b);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin: 40px 0 60px;
+    text-align: center;
+    font-weight: 700;
     text-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
 /* ===== CREATE BUTTON ===== */
 #criar {
-    background: white;
-    color: #ff3b3b;
-    border: none;
-    padding: 20px 40px;
-    border-radius: 20px;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(0, 184, 148, 0.2);
+    padding: 12px 25px;
+    border-radius: 50px;
+    font-size: 1rem;
+    color: white;
+    border: 1px solid rgba(0, 184, 148, 0.3);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     font-weight: 600;
     cursor: pointer;
-    font-size: 2rem;
     transition: all 0.3s ease;
-    margin-bottom: 60px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 #criar:hover {
-    background: #ff3b3b;
-    color: white;
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    background: rgba(0, 184, 148, 0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 184, 148, 0.2);
 }
 
 /* ===== BACK BUTTON ===== */
 .back-btn {
     position: fixed;
-    top: 30px;
-    left: 30px;
-    background: rgba(255, 255, 255, 0.18);
-    padding: 16px 32px;
-    border-radius: 18px;
-    font-size: 1.8rem;
+    top: 20px;
+    left: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 12px 25px;
+    border-radius: 50px;
+    font-size: 1rem;
     color: white;
     text-decoration: none;
-    backdrop-filter: blur(14px);
-    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
-    z-index: 1000;
+    z-index: 9999;
     border: 1px solid rgba(255, 255, 255, 0.1);
+    font-weight: 600;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .back-btn:hover {
-    background: white;
-    color: #ff3b3b;
-    transform: translateY(-4px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
 /* ===== GRID CONTAINER ===== */
 .container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: 40px;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 30px;
     width: 100%;
-    max-width: 2000px;
-    padding: 0 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 30px 30px 60px;
     justify-items: center;
 }
 
-/* ===== PEDIDO CARDS ===== */
+/* ===== PEDIDO CARDS WITH HOME PAGE GLASS EFFECT ===== */
 .pedido {
-    background: rgba(255, 255, 255, 0.15);
-    padding: 40px;
-    border-radius: 32px;
-    backdrop-filter: blur(20px);
-    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.07);
+    padding: 30px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     width: 100%;
-    max-width: 480px;
-    transition: all 0.3s ease;
+    max-width: 450px;
+    transition: all 0.4s ease;
     border: 1px solid rgba(255, 255, 255, 0.1);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s forwards;
+}
+
+.pedido:nth-child(odd) {
+    animation-delay: 0.1s;
+}
+
+.pedido:nth-child(even) {
+    animation-delay: 0.2s;
 }
 
 .pedido:hover {
-    transform: translateY(-10px);
-    background: rgba(255, 255, 255, 0.25);
-    box-shadow: 0 12px 50px rgba(0, 0, 0, 0.3);
+    transform: translateY(-8px);
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
 }
 
-/* ===== INFO CONTAINERS ===== */
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== INFO CONTAINERS WITH HOME PAGE STYLE ===== */
 .info-container {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 20px 25px;
-    border-radius: 20px;
-    margin-bottom: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 18px 22px;
+    border-radius: 15px;
+    margin-bottom: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
     text-align: left;
+    transition: all 0.3s;
+}
+
+.info-container:hover {
+    background: rgba(255, 255, 255, 0.08);
 }
 
 .info-container strong {
     display: block;
-    font-size: 1.8rem;
-    margin-bottom: 8px;
+    font-size: 1rem;
+    margin-bottom: 6px;
     color: rgba(255, 255, 255, 0.9);
+    font-weight: 600;
 }
 
 .info-container p {
-    font-size: 2rem;
+    font-size: 1.4rem;
     margin: 0;
     line-height: 1.4;
-    word-wrap: break-word;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 500;
 }
 
-/* ===== STATUS STYLES ===== */
+/* ===== STATUS CONTAINER ===== */
 .status-container {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 20px 25px;
-    border-radius: 20px;
-    margin-bottom: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 18px 22px;
+    border-radius: 15px;
+    margin-bottom: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
     text-align: center;
+    transition: all 0.3s;
 }
 
-.status-pendente {
-    color: #ffeb3b;
-    text-shadow: 0 0 10px rgba(255, 235, 59, 0.5);
+.status-container:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* ===== STATUS STYLES WITH GLOWING EFFECTS ===== */
+.status-pendente { 
+    color: #fdcb6e; 
+    text-shadow: 0 0 10px rgba(253, 203, 110, 0.4); 
     font-weight: 600;
 }
-
-.status-preparo {
-    color: #00e5ff;
-    text-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+.status-preparo { 
+    color: #4dabf7; 
+    text-shadow: 0 0 10px rgba(77, 171, 247, 0.4); 
     font-weight: 600;
 }
-
-.status-pronto {
-    color: #00ff7f;
-    text-shadow: 0 0 10px rgba(0, 255, 127, 0.5);
+.status-pronto { 
+    color: #00b894; 
+    text-shadow: 0 0 10px rgba(0, 184, 148, 0.4); 
     font-weight: 600;
 }
 
 /* ===== BUTTON CONTAINER ===== */
 .button-container {
     display: flex;
-    gap: 15px;
+    gap: 12px;
     justify-content: center;
     margin-top: 25px;
     flex-wrap: wrap;
 }
 
-/* ===== CARD BUTTONS ===== */
+/* ===== CARD BUTTONS WITH HOME PAGE GRADIENT ===== */
 .pedido button {
-    padding: 18px 30px;
-    border-radius: 18px;
+    padding: 12px 24px;
+    border-radius: 50px;
     border: none;
-    font-size: 1.7rem;
+    font-size: 0.95rem;
     font-weight: 600;
-    background: white;
-    color: #ff3b3b;
     cursor: pointer;
     transition: all 0.3s ease;
-    min-width: 160px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    min-width: 120px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
 }
 
-.pedido button:hover {
-    background: #ff3b3b;
+/* Update Status button - Blue gradient */
+.pedido .update-btn {
+    background: linear-gradient(135deg, #4dabf7, #339af0);
     color: white;
-    transform: translateY(-4px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+.pedido .update-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(77, 171, 247, 0.3);
+}
+
+/* Delete button - Red gradient */
+.pedido .delete-btn {
+    background: linear-gradient(135deg, #e17055, #ff7675);
+    color: white;
+}
+
+.pedido .delete-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(225, 112, 85, 0.3);
 }
 
 /* ===== MODAL STYLES ===== */
@@ -209,151 +263,223 @@ h1 {
     display: none;
 }
 
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
 .popup-box {
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(25px);
-    padding: 50px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
+    padding: 40px;
     width: 90%;
     max-width: 500px;
-    border-radius: 28px;
-    box-shadow: 0 10px 45px rgba(0, 0, 0, 0.3);
-    animation: popIn 0.25s ease;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    animation: slideUp 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .popup-box h2 {
-    font-size: 3rem;
-    margin-bottom: 30px;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    color: white;
+    font-size: 1.8rem;
+    margin-bottom: 25px;
     text-align: center;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 600;
 }
 
 /* ===== INPUT CONTAINERS ===== */
 .input-container {
-    background: rgba(255, 255, 255, 0.15);
-    padding: 25px 30px;
-    border-radius: 20px;
-    margin-bottom: 25px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 20px 25px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
     text-align: left;
 }
 
 .input-container label {
     display: block;
-    font-size: 1.8rem;
-    margin-bottom: 12px;
+    font-size: 1rem;
+    margin-bottom: 10px;
     font-weight: 500;
     color: rgba(255, 255, 255, 0.9);
 }
 
 .input-container input, .input-container select {
     width: 100%;
-    padding: 18px 20px;
-    border-radius: 14px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    background: rgba(255, 255, 255, 0.1);
+    padding: 14px 18px;
+    border-radius: 12px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.07);
     color: white;
-    font-size: 1.8rem;
-    font-family: 'Poppins', sans-serif;
-    backdrop-filter: blur(10px);
+    font-size: 1rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: all 0.3s;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 16px;
 }
 
 .input-container input:focus, .input-container select:focus {
     outline: none;
-    border-color: rgba(255, 255, 255, 0.6);
-    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(108, 92, 231, 0.6);
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
 }
 
 .input-container input::placeholder {
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.input-container select option {
+    background: #1a1a2e;
+    color: white;
 }
 
 /* ===== MODAL BUTTONS ===== */
 .modal-buttons {
     display: flex;
-    gap: 15px;
+    gap: 12px;
     justify-content: center;
-    margin-top: 20px;
+    margin-top: 30px;
     flex-wrap: wrap;
 }
 
 .modal-buttons button {
-    padding: 18px 35px;
-    border-radius: 18px;
-    font-size: 1.8rem;
+    padding: 14px 28px;
+    border-radius: 50px;
+    font-size: 1rem;
     font-weight: 600;
     border: none;
-    background: white;
-    color: #ff3b3b;
     transition: all 0.3s ease;
-    min-width: 140px;
+    min-width: 120px;
     cursor: pointer;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
 }
 
-.modal-buttons button:hover {
-    background: #ff3b3b;
+/* Save button - Green gradient */
+.modal-buttons button:not(.cancel) {
+    background: linear-gradient(135deg, #00b894, #00d2a2);
     color: white;
+}
+
+.modal-buttons button:not(.cancel):hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 10px 20px rgba(0, 184, 148, 0.3);
 }
 
+/* Cancel button - Transparent like home page */
 .modal-buttons .cancel {
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .modal-buttons .cancel:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-3px);
 }
 
-/* ===== ANIMATIONS ===== */
-@keyframes fadeIn { 
-    from { opacity: 0; } 
-    to { opacity: 1; } 
+/* ===== NOTIFICATION BADGE (Like Home Page) ===== */
+.notification-badge {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: linear-gradient(135deg, #e17055, #ff7675);
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(225, 112, 85, 0.4);
+    transition: all 0.3s;
+    z-index: 9999;
 }
 
-@keyframes popIn { 
-    from { transform: scale(0.8); opacity: 0; } 
-    to { transform: scale(1); opacity: 1; } 
+.notification-badge:hover {
+    transform: scale(1.1);
+}
+
+.notification-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #00b894;
+    color: #2d3436;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    font-size: 0.8rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* ===== RESPONSIVE DESIGN ===== */
-@media (max-width: 768px) {
-    body {
-        padding: 100px 15px 40px;
+@media (max-width: 992px) {
+    .container {
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 25px;
+        padding: 20px 20px 40px;
     }
     
     h1 {
-        font-size: 4rem;
-        margin-bottom: 40px;
+        font-size: 2.5rem;
+        margin: 30px 0 40px;
     }
-    
+}
+
+@media (max-width: 768px) {
     .container {
         grid-template-columns: 1fr;
-        gap: 30px;
-        padding: 0 20px;
+        max-width: 500px;
+    }
+    
+    h1 {
+        font-size: 2.2rem;
+        margin: 25px 0 35px;
     }
     
     .pedido {
-        padding: 30px;
-    }
-    
-    .info-container, .status-container {
-        padding: 15px 20px;
+        padding: 25px;
+        max-width: 100%;
     }
     
     .popup-box {
         padding: 30px 25px;
+        margin: 20px;
     }
     
     .input-container {
-        padding: 20px 25px;
+        padding: 18px 20px;
     }
     
     .button-container, .modal-buttons {
         flex-direction: column;
         align-items: center;
+        gap: 12px;
     }
     
     .button-container button, .modal-buttons button {
@@ -361,10 +487,47 @@ h1 {
         max-width: 250px;
     }
     
-    .back-btn {
-        top: 20px;
-        left: 20px;
-        font-size: 1.8rem;
-        padding: 14px 28px;
+    #criar, .back-btn {
+        position: relative;
+        top: auto;
+        left: auto;
+        right: auto;
+        margin: 10px;
+        display: inline-block;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 2rem;
+        margin: 20px 0 30px;
+    }
+    
+    .pedido {
+        padding: 20px;
+    }
+    
+    .info-container, .status-container {
+        padding: 15px 18px;
+    }
+    
+    .info-container strong {
+        font-size: 0.95rem;
+    }
+    
+    .info-container p {
+        font-size: 1.2rem;
+    }
+    
+    .pedido button {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        min-width: 110px;
+    }
+    
+    .modal-buttons button {
+        padding: 12px 24px;
+        font-size: 0.95rem;
+        min-width: 110px;
     }
 }

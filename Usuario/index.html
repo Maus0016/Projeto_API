@@ -1,81 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Usuários</title>
     <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 </head>
-
 <body>
+    <!-- Back button with home page style -->
+    <a href="../Home/" class="back-btn">
+        <i class="fas fa-arrow-left"></i> Voltar ao Dashboard
+    </a>
 
-    <h1>Usuários</h1>
+    <!-- Page title with home page gradient -->
+    <h1><i class="fas fa-users"></i> Usuários</h1>
 
-    <!-- Back Button -->
-    <a href="../Home/" class="back-btn">← Voltar</a>
+    <!-- Create button with home page style -->
+    <button id="criar">
+        <i class="fas fa-plus"></i> Novo Usuário
+    </button>
 
-    <!-- Create Button -->
-    <button id="criar">Criar</button>
-
-    <!-- USER CARDS -->
-    <div class="container">
-        <div class="usuario ativo">
-            <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="User Icon">
-            <h2 data-name>Maria Silva</h2>
-            <p data-email>Email: maria.silva@example.com</p>
-            <p class="status">Status: Ativo</p>
-            <button class="edit-btn">Editar</button>
-            <button class="delete-btn">Excluir</button>
-        </div>
-
-        <div class="usuario inativo">
-            <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="User Icon">
-            <h2 data-name>João Pereira</h2>
-            <p data-email>Email: joao.pereira@example.com</p>
-            <p class="status">Status: Inativo</p>
-            <button class="edit-btn">Editar</button>
-            <button class="delete-btn">Excluir</button>
-        </div>
-
-        <div class="usuario admin">
-            <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Admin Icon">
-            <h2 data-name>Ana Souza</h2>
-            <p data-email>Email: ana.souza@example.com</p>
-            <p class="status">Status: Administrador</p>
-            <button class="edit-btn">Gerenciar</button>
-            <button class="delete-btn">Excluir</button>
+    <!-- Dynamic usuarios container -->
+    <div class="container" id="usuarios-container">
+        <!-- Usuários will be loaded dynamically by JavaScript -->
+        <div class="loading-message" style="text-align: center; padding: 40px; grid-column: 1 / -1;">
+            <i class="fas fa-spinner fa-spin fa-2x"></i>
+            <p style="margin-top: 15px; font-size: 1.2rem; opacity: 0.8;">Carregando usuários...</p>
         </div>
     </div>
 
-    <!-- REAL MODAL (100% hidden by default) -->
-    <!-- REAL MODAL (100% hidden by default) -->
-<div id="modal" class="modal">
-    <div class="modal-content">
-        <h2 id="modal-title">Editar Usuário</h2>
+    <!-- Edit/Create Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h2 id="modal-title"><i class="fas fa-user-plus"></i> Novo Usuário</h2>
 
-        <div class="input-group">
-            <label for="editName">Nome:</label>
-            <input id="editName" type="text" placeholder="Digite o nome">
-        </div>
+            <div class="input-group">
+                <label for="editName"><i class="fas fa-user"></i> Nome:</label>
+                <input id="editName" type="text" placeholder="Digite o nome completo">
+            </div>
 
-        <div class="input-group">
-            <label for="editEmail">Email:</label>
-            <input id="editEmail" type="email" placeholder="Digite o email">
-        </div>
+            <div class="input-group">
+                <label for="editEmail"><i class="fas fa-envelope"></i> Email:</label>
+                <input id="editEmail" type="email" placeholder="exemplo@email.com">
+            </div>
 
-        <div class="input-group">
-            <label for="editPassword">Senha:</label>
-            <input id="editPassword" type="password" placeholder="Digite nova senha">
-        </div>
+            <div class="input-group">
+                <label for="editPassword"><i class="fas fa-lock"></i> Senha:</label>
+                <input id="editPassword" type="password" placeholder="Digite a senha">
+                <p style="font-size: 0.8rem; margin-top: 8px; opacity: 0.7; color: rgba(255,255,255,0.6);">
+                    <i class="fas fa-info-circle"></i> Para editar usuário, deixe em branco para manter senha atual
+                </p>
+            </div>
 
-        <div class="modal-buttons">
-            <button id="salvar" class="save">Salvar</button>
-            <button id="cancelar" class="cancel">Cancelar</button>
+            <div class="modal-buttons">
+                <button id="salvar" class="save">
+                    <i class="fas fa-save"></i> Salvar
+                </button>
+                <button id="cancelar" class="cancel">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
+            </div>
         </div>
     </div>
-</div>
 
+    <!-- Notification badge (like home page) -->
+    <div class="notification-badge" id="notification-badge" style="display: none;">
+        <i class="fas fa-bell"></i>
+        <span class="notification-count" id="notification-count">0</span>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="./script.js"></script>
 </body>
 </html>

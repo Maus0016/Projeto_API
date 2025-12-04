@@ -1,19 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pedidos da Cozinha</title>
-  <link rel="stylesheet" href="./style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidos da Cozinha</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 </head>
 <body>
-  <!-- Back Button -->
-  <a href="../Home/" class="back-btn">← Voltar</a>
-  <h1>Pedidos da Cozinha</h1>
-  
-  <!-- EMPTY container where JS will insert all database cards -->
-  <div class="container" id="pedido-container"></div>
+    <!-- Back button with home page style -->
+    <a href="../Home/" class="back-btn">
+        <i class="fas fa-arrow-left"></i> Voltar ao Dashboard
+    </a>
 
-  <script src="./script.js"></script>
+    <!-- Page title with home page gradient -->
+    <h1><i class="fas fa-concierge-bell"></i> Pedidos da Cozinha</h1>
+
+    <!-- Dynamic pedidos container -->
+    <div class="container" id="pedido-container">
+        <!-- Pedidos will be loaded dynamically by JavaScript -->
+        <div class="loading-message" style="text-align: center; padding: 40px; grid-column: 1 / -1;">
+            <i class="fas fa-spinner fa-spin fa-2x"></i>
+            <p style="margin-top: 15px; font-size: 1.2rem; opacity: 0.8;">Carregando pedidos...</p>
+        </div>
+    </div>
+
+    <!-- Notification badge (like home page) -->
+    <div class="notification-badge" id="notification-badge" style="display: none;">
+        <i class="fas fa-bell"></i>
+        <span class="notification-count" id="notification-count">0</span>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="./script.js"></script>
 </body>
 </html>

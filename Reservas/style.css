@@ -1,191 +1,475 @@
-/* Reset */
+/* ===== HOME PAGE AESTHETIC - APPLIED TO RESERVAS ===== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Body setup */
+/* ===== BODY WITH HOME PAGE GRADIENT ===== */
 body {
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #9b5de5, #f15bb5);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
     color: white;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+    opacity: 0;
+    transition: opacity 0.6s;
+    padding: 80px 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    min-height: 100vh;
     text-align: center;
-    padding: 80px 40px;
 }
 
-/* Title */
+body.loaded {
+    opacity: 1;
+}
+
+/* ===== PAGE TITLE WITH HOME PAGE STYLE ===== */
 h1 {
-    font-size: 5rem;
-    font-weight: 600;
-    margin-bottom: 80px;
+    font-size: 2.8rem;
+    background: linear-gradient(to right, #ff7e5f, #feb47b);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin: 40px 0 60px;
+    text-align: center;
+    font-weight: 700;
     text-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
-/* CREATE BUTTON */
+/* ===== CREATE BUTTON WITH HOME PAGE STYLE ===== */
 .create-bar {
     position: fixed;
-    top: 40px;
-    right: 40px;
-    background: rgba(255,255,255,0.15);
-    padding: 20px 40px;
-    border-radius: 20px;
-    font-size: 2.4rem;
+    top: 20px;
+    right: 20px;
+    background: rgba(0, 184, 148, 0.2);
+    padding: 12px 25px;
+    border-radius: 50px;
+    font-size: 1rem;
+    color: white;
+    border: 1px solid rgba(0, 184, 148, 0.3);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     font-weight: 600;
     cursor: pointer;
-    backdrop-filter: blur(15px);
-    transition: 0.3s ease;
-    color: white;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+    transition: all 0.3s ease;
+    z-index: 9999;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .create-bar:hover {
-    background: white;
-    color: #9b5de5;
-    transform: translateY(-6px);
+    background: rgba(0, 184, 148, 0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 184, 148, 0.2);
 }
 
-/* BACK BUTTON */
+/* ===== BACK BUTTON WITH HOME PAGE STYLE ===== */
 .back-btn {
-    position: absolute;
-    top: 40px;
-    left: 40px;
-    padding: 18px 32px;
-    background: rgba(255, 255, 255, 0.15);
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 12px 25px;
+    border-radius: 50px;
+    font-size: 1rem;
     color: white;
-    border-radius: 18px;
-    font-size: 2rem;
     text-decoration: none;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    z-index: 9999;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     font-weight: 600;
-    transition: 0.3s ease;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .back-btn:hover {
-    background: white;
-    color: #9b5de5;
-    transform: translateY(-6px);
-}
-
-/* GRID */
-.container {
-    width: 100%;
-    max-width: 2000px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
-    gap: 50px;
-}
-
-/* RESERVA CARD */
-.reserva {
     background: rgba(255, 255, 255, 0.15);
-    border-radius: 32px;
-    padding: 50px;
-    backdrop-filter: blur(20px);
-    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.25);
-    transition: 0.3s ease;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* ===== GRID CONTAINER ===== */
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 30px;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 30px 30px 60px;
+    justify-items: center;
+}
+
+/* ===== RESERVA CARDS WITH HOME PAGE GLASS EFFECT ===== */
+.reserva {
+    background: rgba(255, 255, 255, 0.07);
+    padding: 30px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 450px;
+    transition: all 0.4s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s forwards;
+    text-align: left;
+}
+
+.reserva:nth-child(odd) {
+    animation-delay: 0.1s;
+}
+
+.reserva:nth-child(even) {
+    animation-delay: 0.2s;
 }
 
 .reserva:hover {
-    transform: translateY(-12px);
-    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-8px);
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .reserva h2 {
-    font-size: 2.8rem;
+    font-size: 1.5rem;
     margin-bottom: 20px;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 600;
+    text-align: center;
 }
 
 .reserva p {
-    font-size: 2rem;
+    font-size: 1.1rem;
     margin-bottom: 12px;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.4;
 }
 
-/* BUTTONS */
-button {
-    background: white;
-    color: #9b5de5;
+/* ===== RESERVA BUTTON CONTAINER ===== */
+.reserva .button-container {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 25px;
+    flex-wrap: wrap;
+}
+
+/* ===== CARD BUTTONS WITH HOME PAGE GRADIENT ===== */
+.reserva button {
+    padding: 12px 24px;
+    border-radius: 50px;
     border: none;
-    padding: 20px 40px;
-    border-radius: 20px;
-    font-size: 2rem;
+    font-size: 0.95rem;
     font-weight: 600;
     cursor: pointer;
-    transition: 0.3s ease;
-    margin-top: 20px;
+    transition: all 0.3s ease;
+    min-width: 120px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    margin-top: 0;
 }
 
-button:hover {
-    background: #f15bb5;
+/* Edit button - Purple gradient like home page */
+.reserva .edit-btn {
+    background: linear-gradient(135deg, #6c5ce7, #8a7cff);
     color: white;
 }
 
-/* -------------------------------------
-   TRUE CENTER POP-UP MODAL BUBBLE BOX
--------------------------------------- */
+.reserva .edit-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(108, 92, 231, 0.3);
+}
 
+/* Delete button - Red gradient */
+.reserva .delete-btn {
+    background: linear-gradient(135deg, #e17055, #ff7675);
+    color: white;
+}
+
+.reserva .delete-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(225, 112, 85, 0.3);
+}
+
+/* ===== MODAL STYLES ===== */
 .modal {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.55);
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
     display: flex;
     justify-content: center;
     align-items: center;
-    backdrop-filter: blur(4px);
-    z-index: 9999;
+    animation: fadeIn 0.2s ease;
+    z-index: 10000;
 }
 
 .modal.hidden {
     display: none;
 }
 
-.modal-content {
-    width: 95%;
-    max-width: 550px;
-    background: rgba(255,255,255,0.12);
-    padding: 40px;
-    border-radius: 30px;
-    box-shadow: 0 0 40px rgba(0,0,0,0.4);
-    backdrop-filter: blur(18px);
-    animation: pop 0.25s ease;
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
-@keyframes pop {
-    from { transform: scale(0.7); opacity: 0; }
-    to   { transform: scale(1);   opacity: 1; }
+.modal-content {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
+    padding: 40px;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    animation: slideUp 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-content h2 {
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 600;
 }
 
 .modal-content label {
-    font-size: 1.7rem;
     display: block;
+    font-size: 1rem;
     margin: 18px 0 6px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
     text-align: left;
 }
 
 .modal-content input,
 .modal-content textarea {
     width: 100%;
-    padding: 16px;
+    padding: 14px 18px;
     border-radius: 12px;
-    border: none;
-    font-size: 1.6rem;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.07);
+    color: white;
+    font-size: 1rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: all 0.3s;
     margin-bottom: 10px;
 }
 
+.modal-content input:focus,
+.modal-content textarea:focus {
+    outline: none;
+    border-color: rgba(108, 92, 231, 0.6);
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
+}
+
+.modal-content input::placeholder,
+.modal-content textarea::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* ===== MODAL BUTTONS ===== */
 .modal-buttons {
     display: flex;
-    justify-content: space-between;
-    margin-top: 25px;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 30px;
+    flex-wrap: wrap;
 }
 
 .modal-buttons button {
-    width: 48%;
+    padding: 14px 28px;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    transition: all 0.3s ease;
+    min-width: 120px;
+    cursor: pointer;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Save button - Green gradient */
+.modal-buttons button:not(.cancel) {
+    background: linear-gradient(135deg, #00b894, #00d2a2);
+    color: white;
+}
+
+.modal-buttons button:not(.cancel):hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 184, 148, 0.3);
+}
+
+/* Cancel button - Transparent like home page */
+.modal-buttons .cancel {
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-buttons .cancel:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-3px);
+}
+
+/* ===== NOTIFICATION BADGE (Like Home Page) ===== */
+.notification-badge {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: linear-gradient(135deg, #e17055, #ff7675);
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(225, 112, 85, 0.4);
+    transition: all 0.3s;
+    z-index: 9999;
+}
+
+.notification-badge:hover {
+    transform: scale(1.1);
+}
+
+.notification-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #00b894;
+    color: #2d3436;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    font-size: 0.8rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 992px) {
+    .container {
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 25px;
+        padding: 20px 20px 40px;
+    }
+    
+    h1 {
+        font-size: 2.5rem;
+        margin: 30px 0 40px;
+    }
+    
+    body {
+        padding: 60px 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        grid-template-columns: 1fr;
+        max-width: 500px;
+    }
+    
+    h1 {
+        font-size: 2.2rem;
+        margin: 25px 0 35px;
+    }
+    
+    .reserva {
+        padding: 25px;
+        max-width: 100%;
+    }
+    
+    .modal-content {
+        padding: 30px 25px;
+        margin: 20px;
+    }
+    
+    .modal-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+    }
+    
+    .modal-buttons button {
+        width: 100%;
+        max-width: 250px;
+    }
+    
+    .create-bar, .back-btn {
+        position: relative;
+        top: auto;
+        left: auto;
+        right: auto;
+        margin: 10px;
+        display: inline-block;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 2rem;
+        margin: 20px 0 30px;
+    }
+    
+    .reserva {
+        padding: 20px;
+    }
+    
+    .reserva h2 {
+        font-size: 1.3rem;
+    }
+    
+    .reserva p {
+        font-size: 1rem;
+    }
+    
+    .reserva button {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        min-width: 110px;
+    }
+    
+    .modal-buttons button {
+        padding: 12px 24px;
+        font-size: 0.95rem;
+        min-width: 110px;
+    }
+    
+    body {
+        padding: 40px 15px;
+    }
 }
