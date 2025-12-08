@@ -71,17 +71,22 @@ async function get() {
                         <p>${preparo}</p>
                     </div>
 
+                    <!-- FIXED: EDIT FIRST, DELETE SECOND -->
                     <div class="button-container">
-                        <button id="${item.id}_delete">
-                            <i class="fas fa-trash"></i> Excluir
-                        </button>
+                        <!-- EDIT BUTTON (LEFT) -->
                         <button id="${item.id}_edit">
                             <i class="fas fa-edit"></i> Editar
+                        </button>
+                        
+                        <!-- DELETE BUTTON (RIGHT) -->
+                        <button id="${item.id}_delete">
+                            <i class="fas fa-trash"></i> Excluir
                         </button>
                     </div>
                 </div>
             `);
 
+            // Keep the event listeners the same
             document.getElementById(`${item.id}_delete`)
                 .addEventListener("click", () => removeCardapioitem(item.id));
 

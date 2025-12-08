@@ -92,18 +92,6 @@ async function get() {
         }
 
         pedidos.forEach((pedido, index) => {
-            let statusClass = "status-pendente";
-            let statusIcon = "fa-clock";
-            
-            if (pedido.status === "Preparo") {
-                statusClass = "status-preparo";
-                statusIcon = "fa-fire";
-            }
-            if (pedido.status === "Pronto") {
-                statusClass = "status-pronto";
-                statusIcon = "fa-check-circle";
-            }
-
             container.insertAdjacentHTML("beforeend", `
                 <div class="pedido" style="animation-delay: ${index * 0.1}s">
                     <div class="info-container">
@@ -118,14 +106,10 @@ async function get() {
                         <strong><i class="fas fa-utensils"></i> Itens do Pedido</strong>
                         <p>${pedido.itens || "Nenhum item informado"}</p>
                     </div>
-                    <div class="status-container">
-                        <strong><i class="fas ${statusIcon}"></i> Status</strong>
-                        <p class="${statusClass}">${pedido.status}</p>
-                    </div>
 
                     <div class="button-container">
                         <button class="edit-btn" data-id="${pedido.id}">
-                            <i class="fas fa-edit"></i> Atualizar Status
+                            <i class="fas fa-edit"></i> Editar
                         </button>
                         <button class="delete-btn" data-id="${pedido.id}">
                             <i class="fas fa-trash"></i> Excluir
@@ -191,7 +175,7 @@ function openEditModal(pedido) {
     document.body.insertAdjacentHTML("beforeend", `
         <div class="popup-overlay">
             <div class="popup-box">
-                <h2><i class="fas fa-edit"></i> Atualizar Pedido #${pedido.id}</h2>
+                <h2><i class="fas fa-edit"></i> Editar Pedido #${pedido.id}</h2>
 
                 <div class="input-container">
                     <label for="edit-comandaId">ID da Comanda</label>
@@ -201,15 +185,6 @@ function openEditModal(pedido) {
                 <div class="input-container">
                     <label for="edit-itens">Itens do Pedido</label>
                     <input type="text" id="edit-itens" value="${pedido.itens || ''}" placeholder="Digite os itens do pedido">
-                </div>
-
-                <div class="input-container">
-                    <label for="edit-status">Status do Pedido</label>
-                    <select id="edit-status">
-                        <option value="Pendente" ${pedido.status === "Pendente" ? 'selected' : ''}>Pendente</option>
-                        <option value="Preparo" ${pedido.status === "Preparo" ? 'selected' : ''}>Em Preparo</option>
-                        <option value="Pronto" ${pedido.status === "Pronto" ? 'selected' : ''}>Pronto</option>
-                    </select>
                 </div>
 
                 <div class="modal-buttons">
@@ -241,7 +216,6 @@ async function handleSave() {
     try {
         const comandaId = Number(document.getElementById("edit-comandaId").value);
         const itens = document.getElementById("edit-itens").value;
-        const status = document.getElementById("edit-status").value;
 
         if (!comandaId) {
             showToast('❌ ID da comanda é obrigatório', 'error');
@@ -252,8 +226,7 @@ async function handleSave() {
             // Update existing pedido
             const update = {
                 comandaId: comandaId,
-                itens: itens,
-                status: status
+                itens: itens
             };
 
             const response = await fetch(`${baseUrl}/api/PedidoCozinha/${editingPedido.id}`, {
@@ -273,8 +246,7 @@ async function handleSave() {
             // Create new pedido (if needed in future)
             const novoPedido = {
                 comandaId: comandaId,
-                itens: itens,
-                status: status
+                itens: itens
             };
 
             const response = await fetch(`${baseUrl}/api/PedidoCozinha`, {
@@ -322,8 +294,6 @@ async function removePedidoCozinha(id) {
 
 // Setup notifications (like home page)
 function setupNotifications() {
-    // You can add notification functionality here
-    // For now, we'll just show a welcome notification
     setTimeout(() => {
         document.getElementById('notification-badge').style.display = 'flex';
         showToast('Bem-vindo à Cozinha!', 'info');

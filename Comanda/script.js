@@ -164,7 +164,7 @@ async function getComandas() {
 }
 
 // ==================== EDIT MODAL ====================
-function openEditModal(comanda) {
+async function openEditModal(comanda) {
     closeModals();
 
     document.body.insertAdjacentHTML("beforeend", `
@@ -182,6 +182,16 @@ function openEditModal(comanda) {
                     <input type="text" value="${comanda.nomeCliente || ''}" id="edit-nomeCliente" placeholder="Digite o nome do cliente">
                 </div>
 
+                <div class="checklist-container">
+                    <label><i class="fas fa-utensils"></i> Itens do Cardápio</label>
+                    <div class="checklist" id="edit-itens-checklist">
+                        <div style="text-align: center; padding: 20px;">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <p style="margin-top: 10px; font-size: 0.9rem; opacity: 0.7;">Carregando itens...</p>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="modal-buttons">
                     <button id="saveEdit">
                         <i class="fas fa-save"></i> Salvar
@@ -194,6 +204,9 @@ function openEditModal(comanda) {
         </div>
     `);
 
+    // Load menu items and check the ones already in this comanda
+    await loadCardapioItensForEdit(comanda);
+    
     document.getElementById("closeEditModal").onclick = closeModals;
 
     document.getElementById("saveEdit").onclick = async () => {
@@ -203,9 +216,17 @@ function openEditModal(comanda) {
         saveButton.disabled = true;
 
         try {
+            const itensSelecionados = [];
+            const checkboxes = document.querySelectorAll("#edit-itens-checklist .item-checkbox:checked");
+            
+            checkboxes.forEach(checkbox => {
+                itensSelecionados.push(Number(checkbox.value));
+            });
+
             const objComandaUpdate = {
                 numeroMesa: Number(document.getElementById("edit-numeroMesa").value),
-                nomeCliente: document.getElementById("edit-nomeCliente").value
+                nomeCliente: document.getElementById("edit-nomeCliente").value,
+                cardapioItemIds: itensSelecionados
             };
 
             if (!objComandaUpdate.numeroMesa) {
@@ -233,6 +254,67 @@ function openEditModal(comanda) {
             saveButton.disabled = false;
         }
     };
+}
+
+// ==================== LOAD CARDAPIO ITENS FOR EDIT MODAL ====================
+async function loadCardapioItensForEdit(comanda) {
+    try {
+        const res = await fetch(`${baseUrl}/api/CardapioItem`, { headers });
+        if (!res.ok) throw new Error('Failed to fetch menu items');
+        
+        const cardapioitens = await res.json();
+        const itensContainer = document.getElementById("edit-itens-checklist");
+        
+        // Clear loading message
+        itensContainer.innerHTML = "";
+
+        if (cardapioitens.length === 0) {
+            itensContainer.innerHTML = `
+                <div style="text-align: center; padding: 20px; color: rgba(255,255,255,0.5);">
+                    <i class="fas fa-utensils" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                    <p>Nenhum item no cardápio</p>
+                </div>
+            `;
+            return;
+        }
+
+        // Get current item IDs in this comanda
+        const currentItemIds = comanda.items ? comanda.items.map(item => item.id) : [];
+        
+        cardapioitens.forEach(item => {
+            const isChecked = currentItemIds.includes(item.id);
+            
+            itensContainer.insertAdjacentHTML("beforeend", `
+                <div class="checklist-item">
+                    <input type="checkbox" id="edit-item-${item.id}" value="${item.id}" class="item-checkbox" ${isChecked ? 'checked' : ''}>
+                    <label for="edit-item-${item.id}">
+                        <strong>${item.titulo}</strong> 
+                        <span style="opacity: 0.8; font-size: 0.9rem; display: block; margin-top: 4px;">
+                            ${item.descricao || 'Sem descrição'}
+                        </span>
+                        <span style="color: #00b894; font-weight: bold; display: block; margin-top: 4px;">
+                            R$ ${Number(item.preco).toFixed(2)}
+                        </span>
+                    </label>
+                </div>
+            `);
+        });
+        
+    } catch (error) {
+        console.error('Error loading menu items:', error);
+        showToast('❌ Erro ao carregar itens do cardápio', 'error');
+        
+        const itensContainer = document.getElementById("edit-itens-checklist");
+        itensContainer.innerHTML = `
+            <div style="text-align: center; padding: 20px; color: #e17055;">
+                <i class="fas fa-exclamation-triangle"></i>
+                <p style="margin-top: 10px; font-size: 0.9rem;">Erro ao carregar itens do cardápio</p>
+                <button onclick="loadCardapioItensForEdit()" style="margin-top: 10px; background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 10px; cursor: pointer;">
+                    Tentar novamente
+                </button>
+            </div>
+        `;
+    }
 }
 
 // ==================== DELETE COMANDA ====================
