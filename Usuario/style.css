@@ -196,6 +196,48 @@ h1 {
     font-weight: 500;
 }
 
+/* ===== STATUS CONTAINERS ===== */
+.status-container {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 18px 22px;
+    border-radius: 15px;
+    margin-bottom: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    text-align: center;
+    transition: all 0.3s;
+}
+
+.status-container:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.status-container strong {
+    display: block;
+    font-size: 1rem;
+    margin-bottom: 6px;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 600;
+}
+
+/* ===== STATUS STYLES WITH GLOWING EFFECTS ===== */
+.status-ativo { 
+    color: #00b894; 
+    text-shadow: 0 0 10px rgba(0, 184, 148, 0.4); 
+    font-weight: 600;
+    font-size: 1.4rem;
+}
+.status-inativo { 
+    color: #fdcb6e; 
+    text-shadow: 0 0 10px rgba(253, 203, 110, 0.4); 
+    font-weight: 600;
+    font-size: 1.4rem;
+}
+.status-admin { 
+    color: #6c5ce7; 
+    text-shadow: 0 0 10px rgba(108, 92, 231, 0.4); 
+    font-weight: 600;
+    font-size: 1.4rem;
+}
 
 /* ===== BUTTON CONTAINER ===== */
 .button-container {
