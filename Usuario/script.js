@@ -109,20 +109,8 @@ async function getUsuarios() {
         }
 
         usersData.forEach((user, index) => {
-            const statusClass =
-                user.status === "Ativo" ? "status-ativo" :
-                user.status === "Inativo" ? "status-inativo" :
-                "status-admin";
-
-            const statusIcon =
-                user.status === "Ativo" ? "fa-check-circle" :
-                user.status === "Inativo" ? "fa-ban" :
-                "fa-crown";
-
-            const buttonLabel =
-                user.status === "Ativo" ? "Editar" :
-                user.status === "Inativo" ? "Reativar" :
-                "Gerenciar";
+            // Removed status-related variables
+            const buttonLabel = "Editar"; // Simplified button label
 
             const cardHTML = `
                 <div class="usuario" style="animation-delay: ${index * 0.1}s">
@@ -138,11 +126,6 @@ async function getUsuarios() {
                     <div class="info-container">
                         <strong><i class="fas fa-envelope"></i> Email</strong>
                         <p>${user.email}</p>
-                    </div>
-                    
-                    <div class="status-container">
-                        <strong><i class="fas ${statusIcon}"></i> Status</strong>
-                        <p class="${statusClass}">${user.status}</p>
                     </div>
 
                     <div class="button-container">
