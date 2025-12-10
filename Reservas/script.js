@@ -26,10 +26,11 @@ window.addEventListener("load", () => {
 
 // ==================== CUSTOM DELETE CONFIRMATION MODAL ====================
 function showDeleteConfirmation(reservaId, reservaData) {
-    closeModals();
+    // First close any existing delete modals
+    closeDeleteModalOnly();
     
     document.body.insertAdjacentHTML("beforeend", `
-        <div class="modal">
+        <div class="modal delete-confirmation-modal">
             <div class="modal-content" style="max-width: 450px; text-align: center;">
                 <div style="margin-bottom: 25px;">
                     <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #e17055, #ff7675); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
@@ -60,10 +61,39 @@ function showDeleteConfirmation(reservaId, reservaData) {
         </div>
     `);
 
-    document.getElementById("cancelDelete").onclick = closeModals;
+    // Add smooth animation for modal
+    setTimeout(() => {
+        const modal = document.querySelector('.delete-confirmation-modal');
+        if (modal) {
+            modal.style.opacity = '1';
+            modal.style.transform = 'translateY(0)';
+        }
+    }, 10);
 
-    document.getElementById("confirmDelete").onclick = async () => {
+    // Store references to buttons for cleanup
+    const cancelBtn = document.getElementById("cancelDelete");
+    const confirmBtn = document.getElementById("confirmDelete");
+    
+    // Create a single event handler that can be removed later
+    const cancelHandler = () => closeDeleteModalOnly();
+    
+    cancelBtn.onclick = cancelHandler;
+
+    confirmBtn.onclick = async () => {
+        const confirmBtn = document.getElementById("confirmDelete");
+        const originalText = confirmBtn.innerHTML;
+        confirmBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Cancelando...';
+        confirmBtn.disabled = true;
+        
         await removeReserva(reservaId);
+        
+        // Restore button state if there was an error
+        setTimeout(() => {
+            if (confirmBtn && confirmBtn.parentNode) {
+                confirmBtn.innerHTML = originalText;
+                confirmBtn.disabled = false;
+            }
+        }, 2000);
     };
 }
 
@@ -123,17 +153,24 @@ async function getReservas() {
             `);
         });
 
-        // Add event listeners
+        // Add event listeners for edit buttons
         document.querySelectorAll(".edit-btn").forEach(btn => {
             const reserva = reservas.find(x => x.id == btn.dataset.id);
-            btn.addEventListener("click", () => openEditModal(reserva));
+            if (reserva) {
+                btn.addEventListener("click", () => openEditModal(reserva));
+            }
         });
 
+        // Add event listeners for delete buttons with improved error handling
         document.querySelectorAll(".delete-btn").forEach(btn => {
             btn.addEventListener("click", () => {
                 const id = btn.getAttribute("data-id");
                 const selected = reservas.find(x => x.id == id);
-                showDeleteConfirmation(id, selected);
+                if (selected) {
+                    showDeleteConfirmation(id, selected);
+                } else {
+                    showToast('❌ Reserva não encontrada para exclusão', 'error');
+                }
             });
         });
         
@@ -254,11 +291,18 @@ async function saveReserva() {
             modal.classList.add("hidden");
             setTimeout(() => getReservas(), 800);
         } else {
-            throw new Error('Falha ao salvar reserva');
+            let errorMsg = 'Falha ao salvar reserva';
+            try {
+                const errorData = await response.json();
+                errorMsg = errorData.message || errorData.title || errorMsg;
+            } catch (e) {
+                errorMsg = response.statusText || errorMsg;
+            }
+            throw new Error(errorMsg);
         }
     } catch (error) {
-        console.error("Error:", error);
-        showToast('❌ Erro ao salvar reserva', 'error');
+        console.error("Save error:", error);
+        showToast(`❌ ${error.message}`, 'error');
     } finally {
         saveButton.innerHTML = originalText;
         saveButton.disabled = false;
@@ -267,20 +311,36 @@ async function saveReserva() {
 
 // ==================== DELETE RESERVA ====================
 async function removeReserva(id) {
+    console.log("Attempting to delete reservation ID:", id);
+    
     try {
         const response = await fetch(`${baseUrl}/api/Reservas/${id}`, { 
-            method: "DELETE" 
+            method: "DELETE",
+            headers: headers
         });
 
+        console.log("Delete response status:", response.status);
+        
         if (response.ok) {
             showToast('✓ Reserva cancelada com sucesso!', 'success');
-            closeModals();
-            setTimeout(() => getReservas(), 800);
+            closeDeleteModalOnly();
+            // Refresh the reservations list
+            setTimeout(() => getReservas(), 500);
         } else {
-            throw new Error('Falha ao cancelar reserva');
+            let errorMsg = 'Falha ao cancelar reserva';
+            try {
+                const errorData = await response.json();
+                errorMsg = errorData.message || errorData.title || errorMsg;
+            } catch (e) {
+                errorMsg = response.statusText || errorMsg;
+            }
+            console.error("Delete failed:", errorMsg);
+            throw new Error(errorMsg);
         }
     } catch (error) {
-        showToast('❌ Erro ao cancelar reserva', 'error');
+        console.error("Delete error:", error);
+        showToast(`❌ ${error.message}`, 'error');
+        // Don't close modal on error so user can see the error
     }
 }
 
@@ -302,8 +362,68 @@ function setupNotifications() {
     }, 1000);
 }
 
-// ==================== CLOSE MODALS ====================
+// ==================== CLOSE DELETE MODAL ONLY ====================
+function closeDeleteModalOnly() {
+    // Animate and remove delete confirmation modal
+    document.querySelectorAll(".delete-confirmation-modal").forEach(modal => {
+        modal.style.opacity = '0';
+        modal.style.transform = 'translateY(-20px)';
+        setTimeout(() => {
+            if (modal.parentNode) {
+                modal.remove();
+            }
+        }, 300);
+    });
+}
+
+// ==================== CLOSE ALL MODALS ====================
+function closeAllModals() {
+    // Animate and remove all modals
+    document.querySelectorAll(".modal").forEach(modal => {
+        modal.style.opacity = '0';
+        modal.style.transform = 'translateY(-20px)';
+        setTimeout(() => {
+            if (modal.parentNode) {
+                modal.remove();
+            }
+        }, 300);
+    });
+    
+    // Close edit/create modal
+    const mainModal = document.getElementById("modalReserva");
+    if (mainModal) {
+        mainModal.classList.add("hidden");
+    }
+}
+
+// Close delete modals when clicking outside
+document.addEventListener('click', (e) => {
+    if (e.target.classList.contains('delete-confirmation-modal')) {
+        closeDeleteModalOnly();
+    }
+});
+
+// Close main modal when clicking outside
+document.addEventListener('click', (e) => {
+    const mainModal = document.getElementById("modalReserva");
+    if (mainModal && !mainModal.classList.contains('hidden') && 
+        e.target.classList.contains('modal')) {
+        mainModal.classList.add("hidden");
+    }
+});
+
+// Close modal with Escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        closeDeleteModalOnly();
+        const mainModal = document.getElementById("modalReserva");
+        if (mainModal) {
+            mainModal.classList.add("hidden");
+        }
+    }
+});
+
+// Legacy function for compatibility
 function closeModals() {
-    document.querySelectorAll(".modal").forEach(w => w.remove());
-    document.getElementById("modalReserva").classList.add("hidden");
+    closeAllModals();
 }

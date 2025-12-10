@@ -23,8 +23,6 @@ window.addEventListener("load", () => {
     setupNotifications();
 });
 
-let editingPedido = null;
-
 // ==================== CUSTOM DELETE CONFIRMATION MODAL ====================
 function showDeleteConfirmation(pedidoId, pedidoData) {
     closeModals();
@@ -108,9 +106,6 @@ async function get() {
                     </div>
 
                     <div class="button-container">
-                        <button class="edit-btn" data-id="${pedido.id}">
-                            <i class="fas fa-edit"></i> Editar
-                        </button>
                         <button class="delete-btn" data-id="${pedido.id}">
                             <i class="fas fa-trash"></i> Excluir
                         </button>
@@ -119,7 +114,7 @@ async function get() {
             `);
         });
 
-        // Attach event listeners AFTER creating all elements
+        // Attach event listeners for delete buttons only
         attachEventListeners(pedidos);
         
         showToast(`✓ ${pedidos.length} pedidos carregados`, 'success');
@@ -144,18 +139,7 @@ async function get() {
 
 // ==================== ATTACH EVENT LISTENERS ====================
 function attachEventListeners(pedidos) {
-    // Edit buttons
-    document.querySelectorAll(".edit-btn").forEach(btn => {
-        btn.addEventListener("click", (e) => {
-            const id = e.target.getAttribute("data-id");
-            const selected = pedidos.find(p => p.id == id);
-            if (selected) {
-                openEditModal(selected);
-            }
-        });
-    });
-
-    // Delete buttons
+    // Delete buttons only (edit removed)
     document.querySelectorAll(".delete-btn").forEach(btn => {
         btn.addEventListener("click", (e) => {
             const id = e.target.getAttribute("data-id");
@@ -165,111 +149,6 @@ function attachEventListeners(pedidos) {
             }
         });
     });
-}
-
-// ==================== EDIT MODAL ====================
-function openEditModal(pedido) {
-    editingPedido = pedido;
-    closeModals();
-
-    document.body.insertAdjacentHTML("beforeend", `
-        <div class="popup-overlay">
-            <div class="popup-box">
-                <h2><i class="fas fa-edit"></i> Editar Pedido #${pedido.id}</h2>
-
-                <div class="input-container">
-                    <label for="edit-comandaId">ID da Comanda</label>
-                    <input type="number" id="edit-comandaId" value="${pedido.comandaId}" placeholder="Digite o ID da comanda" min="1">
-                </div>
-
-                <div class="input-container">
-                    <label for="edit-itens">Itens do Pedido</label>
-                    <input type="text" id="edit-itens" value="${pedido.itens || ''}" placeholder="Digite os itens do pedido">
-                </div>
-
-                <div class="modal-buttons">
-                    <button id="save-btn">
-                        <i class="fas fa-save"></i> Salvar
-                    </button>
-                    <button id="cancel-btn" class="cancel">
-                        <i class="fas fa-times"></i> Cancelar
-                    </button>
-                </div>
-            </div>
-        </div>
-    `);
-
-    document.getElementById("cancel-btn").onclick = closeModals;
-
-    document.getElementById("save-btn").onclick = async () => {
-        await handleSave();
-    };
-}
-
-// ==================== HANDLE SAVE ====================
-async function handleSave() {
-    const saveButton = document.getElementById("save-btn");
-    const originalText = saveButton.innerHTML;
-    saveButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Salvando...';
-    saveButton.disabled = true;
-
-    try {
-        const comandaId = Number(document.getElementById("edit-comandaId").value);
-        const itens = document.getElementById("edit-itens").value;
-
-        if (!comandaId) {
-            showToast('❌ ID da comanda é obrigatório', 'error');
-            return;
-        }
-
-        if (editingPedido) {
-            // Update existing pedido
-            const update = {
-                comandaId: comandaId,
-                itens: itens
-            };
-
-            const response = await fetch(`${baseUrl}/api/PedidoCozinha/${editingPedido.id}`, {
-                method: "PUT",
-                headers,
-                body: JSON.stringify(update)
-            });
-
-            if (response.ok) {
-                showToast('✓ Pedido atualizado com sucesso!', 'success');
-                closeModals();
-                setTimeout(() => get(), 800);
-            } else {
-                throw new Error('Falha ao atualizar pedido');
-            }
-        } else {
-            // Create new pedido (if needed in future)
-            const novoPedido = {
-                comandaId: comandaId,
-                itens: itens
-            };
-
-            const response = await fetch(`${baseUrl}/api/PedidoCozinha`, {
-                method: "POST",
-                headers,
-                body: JSON.stringify(novoPedido)
-            });
-
-            if (response.ok) {
-                showToast('✓ Pedido criado com sucesso!', 'success');
-                closeModals();
-                setTimeout(() => get(), 800);
-            } else {
-                throw new Error('Falha ao criar pedido');
-            }
-        }
-    } catch (error) {
-        console.error("Error:", error);
-        showToast('❌ Erro ao salvar pedido', 'error');
-    } finally {
-        saveButton.innerHTML = originalText;
-        saveButton.disabled = false;
-    }
 }
 
 // ==================== DELETE PEDIDO ====================
@@ -284,11 +163,18 @@ async function removePedidoCozinha(id) {
             closeModals();
             setTimeout(() => get(), 800);
         } else {
-            throw new Error('Falha ao excluir pedido');
+            let errorMsg = 'Falha ao excluir pedido';
+            try {
+                const errorData = await response.json();
+                errorMsg = errorData.message || errorData.title || errorMsg;
+            } catch (e) {
+                errorMsg = response.statusText || errorMsg;
+            }
+            throw new Error(errorMsg);
         }
     } catch (error) {
         console.error("Error:", error);
-        showToast('❌ Erro ao excluir pedido', 'error');
+        showToast(`❌ ${error.message}`, 'error');
     }
 }
 
